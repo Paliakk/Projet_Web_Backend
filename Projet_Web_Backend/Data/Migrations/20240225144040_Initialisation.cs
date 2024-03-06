@@ -167,6 +167,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Students");
+            migrationBuilder.Sql("DELETE FROM CourseStudent (StudentsStudentId, CoursesCourseId) VALUES (1, 1);");
+            migrationBuilder.Sql("DELETE FROM CourseStudent (StudentsStudentId, CoursesCourseId) VALUES (1, 2);");
+            migrationBuilder.Sql("DELETE FROM CourseStudent (StudentsStudentId, CoursesCourseId) VALUES (2, 1);");
         }
     }
 }

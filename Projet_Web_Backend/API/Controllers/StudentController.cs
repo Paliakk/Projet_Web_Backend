@@ -10,6 +10,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Data.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers;
 
@@ -30,6 +31,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<StudentDTO>>> Getstudents()
     {
         try
@@ -43,6 +45,7 @@ public class StudentController : ControllerBase
         }
     }
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<StudentCreateDTO>> CreateStudent([FromBody] StudentCreateDTO createDTO)
     {
         try
@@ -64,7 +67,8 @@ public class StudentController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-    [HttpGet("{studentId}")]
+    [HttpGet("{studentId:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<StudentDTO>> GetStudent(int studentId)
     {
         try
@@ -81,7 +85,8 @@ public class StudentController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-    [HttpPut("{studentId}")]
+    [HttpPut("{studentId:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> UpdateStudent(int studentId, [FromBody] StudentUpdateDTO updateDTO)
     {
         try
@@ -103,7 +108,8 @@ public class StudentController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error updating data");
         }
     }
-    [HttpDelete("{studentId}")]
+    [HttpDelete("{studentId:int}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Student>> DeleteStudent(int studentId)
     {
         try
@@ -121,7 +127,8 @@ public class StudentController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data");
         }
     }
-    [HttpGet("{studentId}/courses")]
+    [HttpGet("{studentId:int}/courses")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByStudent(int studentId)
     {
         try

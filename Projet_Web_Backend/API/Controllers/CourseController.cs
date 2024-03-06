@@ -20,15 +20,16 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Course
+        // GET: http://localhost:5137/api/Course
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles ="Admin,Student")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCourses()
         {
             try
             {
-                IEnumerable<Course> courses = await _courseRepository.GetCourses();
-                return Ok(_mapper.Map<IEnumerable<CourseDTO>>(courses));
+                var courses = await _courseRepository.GetCourses();
+                var response = _mapper.Map<IEnumerable<CourseDTO>>(courses);
+                return Ok(response);
             }
             catch (Exception)
             {
@@ -36,14 +37,15 @@ namespace API.Controllers
             }
         }
 
-        // GET: api/Course/5
-        [HttpGet("{courseId}")]
-        [Authorize(Roles = "admin")]
-        public async Task<ActionResult<CourseDTO>> GetCourse(int courseIdDTO)
+        // GET: http://localhost:5137/api/Course/{courseId}
+        [HttpGet]
+        [Route("{courseIdDTO:int}")]
+
+        public async Task<ActionResult<CourseDTO>> GetCourseById([FromRoute]int courseIdDTO)
         {
             try
             {
-                var course = await _courseRepository.GetCourse(courseIdDTO);
+                var course = await _courseRepository.GetCourseById(courseIdDTO);
                 if (course == null)
                 {
                     return NotFound();
@@ -57,8 +59,9 @@ namespace API.Controllers
         }
         // return CreatedAtAction(nameof(GetCourse), new { id = createdCourse.CourseId }, createdCourse); C'est la ligne de code que j'avais précédemment pour la création d'un cours
         // Mais je l'ai remplacé par la ligne de code suivante car elle posait des soucis 
-        // POST: api/Course
+        // POST: http://localhost:5137/api/Course
         [HttpPost]
+        [Authorize(Roles = "Admin,Instructor")]
         public async Task<ActionResult<CourseCreateDTO>> CreateCourse([FromBody] CourseCreateDTO createDTO)
         {
             try
@@ -78,25 +81,26 @@ namespace API.Controllers
 
         }
 
-        // PUT: api/Course/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{courseId}")]
-        public async Task<IActionResult> UpdateCourse(int courseId, CourseUpdateDTO updateDTO)
+        // PUT: http://localhost:5137/api/Course/{courseId}
+        [HttpPut]
+        [Route("{courseId:int}")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<IActionResult> UpdateCourse([FromRoute]int courseId, CourseUpdateDTO updateDTO)
         {
             try
             {
-                if (courseId != updateDTO.CourseId)
+                //Convert DTO to Domain model
+                var course = _mapper.Map<Course>(updateDTO);
+                course.CourseId = courseId;
+
+                var updatedCourse = await _courseRepository.UpdateCourse(course);
+                if(updatedCourse == null)
                 {
-                    return BadRequest("Course ID mismatch");
+                    return NoContent();
                 }
-                var courseToUpdate = await _courseRepository.GetCourse(courseId);
-                CourseUpdateDTO courseDTO = _mapper.Map<CourseUpdateDTO>(courseToUpdate);
-                if (courseToUpdate == null)
-                {
-                    return NotFound($"Course with Id = {courseId} not found");
-                }
-                Course model = _mapper.Map(updateDTO, courseToUpdate);
-                return Ok(await _courseRepository.UpdateCourse(model));
+                //Convert Domain model to DTO
+                var response = _mapper.Map<CourseDTO>(updatedCourse);
+                return Ok(response);
             }
             catch (Exception)
             {
@@ -104,20 +108,23 @@ namespace API.Controllers
             }
         }
 
-        // DELETE: api/Course/5
-        [HttpDelete("{courseId}")]
-        [Authorize(Roles = "custom")]
-        public async Task<IActionResult> DeleteCourse(int courseId)
+        // DELETE: http://localhost:5137/api/Course/{courseId}
+        [HttpDelete]
+        [Route("{courseId:int}")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<IActionResult> DeleteCourse([FromRoute]int courseId)
         {
             try
             {
-                var courseToDelete = await _courseRepository.GetCourse(courseId);
-                if (courseToDelete == null)
+                var course = await _courseRepository.DeleteCourse(courseId);
+                
+                if(course == null)
                 {
-                    return NotFound($"Course with Id = {courseId} not found");
+                    return NotFound();
                 }
-                _courseRepository.DeleteCourse(courseToDelete);
-                return Ok($"Course with Id = {courseId} deleted");
+                //Convert Domain
+                var response = _mapper.Map<CourseDTO>(_mapper.Map<Course>(course));
+                return Ok(response);
             }
             catch (Exception)
             {

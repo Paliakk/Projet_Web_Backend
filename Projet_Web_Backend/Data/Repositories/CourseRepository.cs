@@ -15,9 +15,9 @@ public class CourseRepository : ICourseRepository
     }
     public async Task<IEnumerable<Course>> GetCourses()
     {
-        return await _context.Courses.OrderBy(c => c.CourseId).ToListAsync();      //CHangement de la méthode pour qu'elle retourne les cours par ordre croissant
+        return await _context.Courses.ToListAsync();      //CHangement de la méthode pour qu'elle retourne les cours par ordre croissant
     }
-    public async Task<Course> GetCourse(int id)
+    public async Task<Course?> GetCourseById(int id)
     {
         return await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
     }
@@ -27,27 +27,27 @@ public class CourseRepository : ICourseRepository
         await _context.SaveChangesAsync();
         return result.Entity;
     }
-    public async Task<Course> UpdateCourse(Course course)
+    public async Task<Course?> UpdateCourse(Course course)
     {
-        var result = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == course.CourseId);
-        if (result != null)
+        var existingCourse = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == course.CourseId);
+        if (existingCourse != null)
         {
-            result.CourseName = course.CourseName;
-            result.CourseDescription = course.CourseDescription;
+            _context.Entry(existingCourse).CurrentValues.SetValues(course);
             await _context.SaveChangesAsync();
-            return result;
+            return course;
         }
         return null;
     }
-    public Task<Course> GetCourseByName(string name)       // Ajout de cette méthode pour la recherche par nom
-                                                           //Je dois faire attention à lutilisation de cette méthode, elle cause des problème de liaison avec le backend et des grosses erreurs
+    public async Task<Course?> DeleteCourse(int courseId)            // J'ai aussi eu pas mal de problèmes sur la suppression je ne passais que l'id maintenant je passe un course complet
     {
-        return _context.Courses.FirstOrDefaultAsync(c => c.CourseName == name);
-    }
-    public void DeleteCourse(Course course)            // J'ai aussi eu pas mal de problèmes sur la suppression je ne passais que l'id maintenant je passe un course complet
-    {
-        _context.Courses.Remove(course);
-        _context.SaveChanges();
+        var existingCourse = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == courseId);
+        if(existingCourse is null)
+        {
+            return null;
+        }
+        _context.Courses.Remove(existingCourse);
+        await _context.SaveChangesAsync();
+        return existingCourse;
     }
 
     public async Task<IEnumerable<Student>> GetStudentsByCourse(int courseId)
