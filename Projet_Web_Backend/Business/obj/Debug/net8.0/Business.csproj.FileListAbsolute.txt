@@ -62,9 +62,9 @@ C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.AssemblyInfo.cs
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.csproj.CoreCompileInputs.cache
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.sourcelink.json
-C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.csproj.CopyComplete
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.dll
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\refint\Business.dll
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.genruntimeconfig.cache
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\ref\Business.dll
+C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.csproj.CopyComplete

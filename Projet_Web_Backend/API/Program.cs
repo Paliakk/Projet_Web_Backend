@@ -6,11 +6,12 @@ using Humanizer;
 using Microsoft.OpenApi.Models;
 using API;
 using Data;
-using Data.Data;
 using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
+using Domain.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +25,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var configuration = builder.Configuration;
-builder.Services.AddDbContext<BackendContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("Web_Project_DB")));
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("Web_Project_DB")));     //Les tables d'identités seront stockées dans la même base de donénes bien que ce ne soit aps une bonne pratique
@@ -33,13 +32,11 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("CodePulse")
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddRoles<ApplicationRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CodePulse")
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddDefaultTokenProviders();
 
@@ -58,7 +55,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
-            AuthenticationType = "Jwt",
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,

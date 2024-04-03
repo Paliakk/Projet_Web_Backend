@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Domain.Dtos;
 public class CourseDTO
 {
-    public int CourseId { get; set; }
+    public int Id { get; set; }
     [Required]
-    public string? CourseName { get; set; }
+    public string? Name { get; set; }
     [Required]
-    public string? CourseDescription { get; set; }
+    public string? Description { get; set; }
 }

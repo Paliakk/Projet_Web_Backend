@@ -50,9 +50,9 @@ C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Da
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.AssemblyInfo.cs
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.csproj.CoreCompileInputs.cache
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.sourcelink.json
-C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.csproj.CopyComplete
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.dll
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\refint\Data.dll
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.pdb
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.genruntimeconfig.cache
 C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\ref\Data.dll
+C:\Users\igorm\Desktop\ProjetWebBack\Projet_Web_Backend\Data\obj\Debug\net8.0\Data.csproj.CopyComplete

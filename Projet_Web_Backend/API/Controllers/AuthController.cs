@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Domain.Dtos;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly ITokenRepository tokenRepository;
-        public AuthController(UserManager<IdentityUser> userManager,ITokenRepository tokenRepository)
+        public AuthController(UserManager<ApplicationUser> userManager,ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
             this.tokenRepository = tokenRepository;
@@ -59,7 +60,7 @@ namespace API.Controllers
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO request)
         {
             //Create IdentityUser object 
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = request.Email?.Trim(),
                 Email = request.Email?.Trim()

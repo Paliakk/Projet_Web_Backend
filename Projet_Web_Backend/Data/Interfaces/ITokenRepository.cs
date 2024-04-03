@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Data.Interfaces
 {
     public interface ITokenRepository
     {
-        string CreateJwtToken(IdentityUser user,List<string> roles);
+        string CreateJwtToken(ApplicationUser user,List<string> roles);
     }
 }

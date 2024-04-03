@@ -22,7 +22,7 @@ namespace API.Controllers
 
         // GET: http://localhost:5137/api/Course
         [HttpGet]
-        [Authorize(Roles ="Admin,Student")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin,Student")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCourses()
         {
             try
@@ -61,7 +61,7 @@ namespace API.Controllers
         // Mais je l'ai remplacé par la ligne de code suivante car elle posait des soucis 
         // POST: http://localhost:5137/api/Course
         [HttpPost]
-        [Authorize(Roles = "Admin,Instructor")]
+
         public async Task<ActionResult<CourseCreateDTO>> CreateCourse([FromBody] CourseCreateDTO createDTO)
         {
             try
@@ -84,14 +84,16 @@ namespace API.Controllers
         // PUT: http://localhost:5137/api/Course/{courseId}
         [HttpPut]
         [Route("{courseId:int}")]
-        [Authorize(Roles = "Admin,Instructor")]
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student")]
+
         public async Task<IActionResult> UpdateCourse([FromRoute]int courseId, CourseUpdateDTO updateDTO)
         {
             try
             {
                 //Convert DTO to Domain model
                 var course = _mapper.Map<Course>(updateDTO);
-                course.CourseId = courseId;
+                course.Id = courseId;
 
                 var updatedCourse = await _courseRepository.UpdateCourse(course);
                 if(updatedCourse == null)
@@ -131,6 +133,7 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting course record");
             }
         }
+        /*
         [HttpGet("{courseId}/students")]
         public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudentsByCourse(int courseId)
         {
@@ -151,7 +154,7 @@ namespace API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
-        }
+        }*/
         [HttpPost("{courseId}/students/{studentId}")]
         public async Task<IActionResult> AddStudentToCourse(int courseId, int studentId)
         {
@@ -164,7 +167,7 @@ namespace API.Controllers
             return Ok($"Student with Id = {studentId} added to course with Id = {courseId}");
 
         }
-        [HttpDelete("{courseId}/students/{studentId}")]
+        /*[HttpDelete("{courseId}/students/{studentId}")]
         public async Task<IActionResult> RemoveStudentFromCourse(int courseId, int studentId)
         {
             var result = await _courseRepository.RemoveStudentFromCourse(studentId, courseId);
@@ -196,7 +199,7 @@ namespace API.Controllers
             }
 
             return Ok($"Instructor with Id = {instructorId} removed from course with Id = {courseId}");
-        }
+        }*/
 
     }
 }

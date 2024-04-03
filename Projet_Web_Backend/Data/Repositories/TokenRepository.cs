@@ -1,4 +1,5 @@
 ﻿using Data.Interfaces;
+using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +21,7 @@ namespace Data.Repositories
         {
             this.configuration = configuration;
         }
-        public string CreateJwtToken(IdentityUser user, List<string> roles)
+        public string CreateJwtToken(ApplicationUser user, List<string> roles)
         {
             // Create Claims from the roles
             var claims = new List<Claim>
