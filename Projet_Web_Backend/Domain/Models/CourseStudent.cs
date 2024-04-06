@@ -10,8 +10,10 @@ namespace Domain.Models
     {
         public int Id { get; set; }
         public int UserID { get; set; } 
+        public string username { get; set; }
         public ApplicationUser? User { get; set; }
         public int CourseID { get; set; }
+        public string CourseName { get; set; }
         public Course? Course { get; set; }
     }
 }

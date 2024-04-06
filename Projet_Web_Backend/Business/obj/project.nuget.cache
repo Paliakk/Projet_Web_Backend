@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "iRTDOFYY5Nh+6OJladB5d0e5L8QxpZ7+AAuDh83nMKJ2sNzndJ+eOn+ANwgQaMjGZYyMG80im3b66vJxyynhFg==",
+  "dgSpecHash": "pAXXEraFiaB3SY+GQbH+fZNtE4P4bBvC19/e0iCI2eE3Nir1Z42wqPqB79FzAQYfu+RVeyc1Fu6H5xhk722fBw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Business\\Business.csproj",
+  "projectFilePath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Business\\Business.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\igorm\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
@@ -74,7 +75,7 @@
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.codeanalysis.razor\\6.0.24\\microsoft.codeanalysis.razor.6.0.24.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.codeanalysis.scripting.common\\4.8.0-3.final\\microsoft.codeanalysis.scripting.common.4.8.0-3.final.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\4.8.0-3.final\\microsoft.codeanalysis.workspaces.common.4.8.0-3.final.nupkg.sha512",
-    "C:\\Users\\igorm\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\igorm\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.4\\microsoft.data.sqlclient.5.1.4.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.1.1\\microsoft.data.sqlclient.sni.runtime.5.1.1.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\microsoft.diasymreader\\2.0.0\\microsoft.diasymreader.2.0.0.nupkg.sha512",

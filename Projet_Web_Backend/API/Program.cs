@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 using Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Business.Interfaces;
+using Business.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,9 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddRoles<ApplicationRole>()

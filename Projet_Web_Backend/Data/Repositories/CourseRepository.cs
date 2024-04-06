@@ -18,7 +18,7 @@ public class CourseRepository : ICourseRepository
         _roleManager = roleManager;
         _userManager = userManager;
     }
-    public async Task<IEnumerable<Course>> GetCourses()
+    public async Task<IEnumerable<Course>> GetAllCourses()
     {
         return await _context.Course.ToListAsync();      //CHangement de la méthode pour qu'elle retourne les cours par ordre croissant
     }
@@ -28,20 +28,18 @@ public class CourseRepository : ICourseRepository
     }
     public async Task<Course> AddCourse(Course course)
     {
-        var result = await _context.Course.AddAsync(course);
+        var result = await _context.Course.AddAsync(course); 
         await _context.SaveChangesAsync();
         return result.Entity;
     }
-    public async Task<Course?> UpdateCourse(Course course)
+    public async Task UpdateCourse(Course course)
     {
         var existingCourse = await _context.Course.FirstOrDefaultAsync(c => c.Id == course.Id);
         if (existingCourse != null)
         {
             _context.Entry(existingCourse).CurrentValues.SetValues(course);
             await _context.SaveChangesAsync();
-            return course;
         }
-        return null;
     }
     public async Task<Course?> DeleteCourse(int courseId)            // J'ai aussi eu pas mal de problèmes sur la suppression je ne passais que l'id maintenant je passe un course complet
     {
@@ -55,18 +53,42 @@ public class CourseRepository : ICourseRepository
         return existingCourse;
     }
 
-    /*public async Task<IEnumerable<ApplicationUser>> GetStudentsByCourse(int courseId)
+    public async Task<IEnumerable<ApplicationUser>> GetStudentsByCourse(int courseId)
     {
-        var coursesWithStudents = await _context.Course.
-            Where(c => c.Id == courseId)
-            .SelectMany(c => c.User)
+        var coursesWithStudents = await _context.CourseStudent.
+            Where(cs => cs.CourseID == courseId)
+            .Include(cs => cs.User)
             .ToListAsync();
-        return coursesWithStudents;
-    }*/
+        var students = coursesWithStudents.
+            Where(cs=>cs.User!=null)
+            .Select(cs=>cs.User)
+            .ToList();
+        return students;
+    }
+    public async Task<IEnumerable<Course>> GetCoursesByInstructorName(string instructorName)
+    {
+        var coursesWithInstructor = await _context.CourseInstructor
+            .Where(ci => ci.username.Equals(instructorName))
+            .Select(ci=>ci.Course)
+            .Where(c=> c !=null)
+            .ToListAsync();
+        return coursesWithInstructor;
+    }
+    public async Task<IEnumerable<Course>> GetCoursesByStudentId(int studentId)
+    {
+        var courses = await _context.CourseStudent
+        .Where(cs => cs.UserID == studentId)
+        .Select(cs => cs.Course)
+        .Where(c => c != null)
+        .ToListAsync();
+
+        return courses;
+    }
     public async Task<bool> AddStudentToCourse(int studentId, int courseId)
     {
         //Verif si l'user existe
         var user = await _context.Users.FindAsync(studentId);
+        var _username = user.UserName;
         if (user == null)
         {
             return false;
@@ -79,6 +101,7 @@ public class CourseRepository : ICourseRepository
         }
         //vérif si cours existe
         var course = await _context.Course.FindAsync(courseId);
+        var _courseName = course.Name;
         if (course == null)
         {
             return false;
@@ -93,32 +116,98 @@ public class CourseRepository : ICourseRepository
         var courseStudent = new CourseStudent
         {
             UserID = studentId,
-            CourseID = courseId
+            CourseID = courseId,
+            CourseName = _courseName,
+            username = _username
+             
         };
         _context.CourseStudent.Add(courseStudent);
         await _context.SaveChangesAsync();
         return true;
     }
-    /*public async Task<bool> RemoveStudentFromCourse(int studentId, int courseId)
+    public async Task<bool> AddInstructorToCourse(int instructorId, int courseId)
     {
-        var course = await _context.Courses
-            .Include(c => c.Students)
-            .FirstOrDefaultAsync(c => c.CourseId == courseId);
-        
-        var student = await _context.Students.FindAsync(studentId);
-        if (course == null || student == null)
+        //Verif si l'user existe
+        var user = await _context.Users.FindAsync(instructorId);
+        var _username = user.UserName;
+        if (user == null)
         {
             return false;
         }
-        if (!course.Students.Any(s=> s.StudentId == studentId))
+        //Vérif si user à le rôle instructor
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Contains("Instructor"))
         {
             return false;
         }
-        course.Students.Remove(student);
+        //vérif si cours existe
+        var course = await _context.Course.FindAsync(courseId);
+        var _courseName = course.Name;
+        if (course == null)
+        {
+            return false;
+        }
+        //Vérif si user inscrit au cours
+        bool isAlreadyInstructor = _context.CourseInstructor.Any(cs => cs.UserID == instructorId && cs.CourseID == courseId);
+        if (isAlreadyInstructor)
+        {
+            return false;
+        }
+        //Ajouter l'user
+        var courseInstructor = new CourseInstructor
+        {
+            UserID = instructorId,
+            CourseID = courseId,
+            CourseName = _courseName,
+            username = _username
+
+        };
+        _context.CourseInstructor.Add(courseInstructor);
         await _context.SaveChangesAsync();
         return true;
     }
-    public async Task<bool> AddInstructorToCourse(int instructorId, int courseId)
+    public async Task<bool> RemoveStudentFromCourse(int studentId, int courseId)
+    {
+        //Trouver la relation CourseStudent existante
+        var courseStudent = await _context.CourseStudent
+            .FirstOrDefaultAsync(cs => cs.UserID == studentId && cs.CourseID == courseId);
+        //Vérification nullité
+        if(courseStudent == null)
+        {
+            return false;
+        }
+        //Supprimer la relation si existante
+        _context.CourseStudent.Remove(courseStudent);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+    public async Task<bool> UpdateCourseInstructor(int courseId, string instructorName)
+    {
+        var course = _context.CourseInstructor.Find(courseId);
+        if (course == null)
+        {
+            throw new Exception("Course not found");
+            return false;
+        }
+        _context.Entry(course).CurrentValues.SetValues(instructorName);
+        _context.SaveChangesAsync(); return true;
+    }
+    public async Task<bool> RemoveAllStudentsFromCourse(int courseId)
+    {
+        //Trouver les CourseStudent liés au courseId
+        var courseStudents = await _context.CourseStudent
+            .Where(cs=> cs.CourseID == courseId)
+            .ToListAsync();
+        //Vérifier s'il y a des étudiants
+        if (!courseStudents.Any())
+        {
+            return false;
+        }
+        //Suppression
+        _context.CourseStudent.RemoveRange(courseStudents);
+        await _context.SaveChangesAsync(); return true;
+    }
+    /*public async Task<bool> AddInstructorToCourse(int instructorId, int courseId)
     {
         var course = await _context.Courses
             .Include(c => c.Instructors)

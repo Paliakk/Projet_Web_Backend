@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Data.Interfaces;
 using Domain.Models;
+using Business.Interfaces;
 
 namespace API.Controllers
 {
@@ -11,25 +12,24 @@ namespace API.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseRepository _courseRepository;
+        private readonly ICourseService _courseService;
         private readonly IMapper _mapper;
 
-        public CourseController(ICourseRepository courseRepository, IMapper mapper)
+        public CourseController(ICourseService courseService, IMapper mapper)
         {
-            _courseRepository = courseRepository;
+            _courseService = courseService;
             _mapper = mapper;
         }
-
+        #region Cours
         // GET: http://localhost:5137/api/Course
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin,Student")]
+        [HttpGet("GetAllCourses")]
+        //[Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCourses()
         {
             try
             {
-                var courses = await _courseRepository.GetCourses();
-                var response = _mapper.Map<IEnumerable<CourseDTO>>(courses);
-                return Ok(response);
+                var courses = await _courseService.GetAllCourses();
+                return Ok(courses);
             }
             catch (Exception)
             {
@@ -38,19 +38,18 @@ namespace API.Controllers
         }
 
         // GET: http://localhost:5137/api/Course/{courseId}
-        [HttpGet]
-        [Route("{courseIdDTO:int}")]
+        [HttpGet("GetCourseById/{courseIdDTO}")]
 
         public async Task<ActionResult<CourseDTO>> GetCourseById([FromRoute]int courseIdDTO)
         {
             try
             {
-                var course = await _courseRepository.GetCourseById(courseIdDTO);
+                var course = await _courseService.GetCourseById(courseIdDTO);
                 if (course == null)
                 {
                     return NotFound();
                 }
-                return Ok(_mapper.Map<CourseDTO>(course));
+                return Ok(course);
             }
             catch (Exception)
             {
@@ -60,7 +59,7 @@ namespace API.Controllers
         // return CreatedAtAction(nameof(GetCourse), new { id = createdCourse.CourseId }, createdCourse); C'est la ligne de code que j'avais précédemment pour la création d'un cours
         // Mais je l'ai remplacé par la ligne de code suivante car elle posait des soucis 
         // POST: http://localhost:5137/api/Course
-        [HttpPost]
+        [HttpPost("CreateCourse")]
 
         public async Task<ActionResult<CourseCreateDTO>> CreateCourse([FromBody] CourseCreateDTO createDTO)
         {
@@ -70,9 +69,8 @@ namespace API.Controllers
                 {
                     return BadRequest(createDTO);
                 }
-                Course model = _mapper.Map<Course>(createDTO);
-                await _courseRepository.AddCourse(model);
-                return Created("", model);
+                await _courseService.AddCourse(createDTO);
+                return Created("", createDTO);
             }
             catch (Exception)
             {
@@ -82,27 +80,25 @@ namespace API.Controllers
         }
 
         // PUT: http://localhost:5137/api/Course/{courseId}
-        [HttpPut]
-        [Route("{courseId:int}")]
+        [HttpPut("UpdateCourse/{courseId}")]
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student")]
 
-        public async Task<IActionResult> UpdateCourse([FromRoute]int courseId, CourseUpdateDTO updateDTO)
+        public async Task<IActionResult> UpdateCourse([FromRoute]int courseId,[FromBody] CourseUpdateDTO updateDTO)
         {
             try
             {
-                //Convert DTO to Domain model
-                var course = _mapper.Map<Course>(updateDTO);
-                course.Id = courseId;
-
-                var updatedCourse = await _courseRepository.UpdateCourse(course);
-                if(updatedCourse == null)
+                var existingCourse = await _courseService.GetCourseById(courseId);
+                if (existingCourse == null)
                 {
-                    return NoContent();
+                    return NotFound($"Cours non trouvé avec l'ID {courseId}.");
                 }
-                //Convert Domain model to DTO
-                var response = _mapper.Map<CourseDTO>(updatedCourse);
-                return Ok(response);
+                var courseDTO = _mapper.Map<CourseDTO>(updateDTO);
+                _mapper.Map(updateDTO, courseDTO);
+                courseDTO.Id = courseId; // S'assurer que l'ID est correct
+                await _courseService.UpdateCourse(courseDTO);
+
+                return Ok();
             }
             catch (Exception)
             {
@@ -111,35 +107,35 @@ namespace API.Controllers
         }
 
         // DELETE: http://localhost:5137/api/Course/{courseId}
-        [HttpDelete]
-        [Route("{courseId:int}")]
-        [Authorize(Roles = "Admin,Instructor")]
+        [HttpDelete("DeleteCourse/{courseId}")]
+        //[Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> DeleteCourse([FromRoute]int courseId)
         {
             try
             {
-                var course = await _courseRepository.DeleteCourse(courseId);
-                
-                if(course == null)
+                var courseDTO = await _courseService.DeleteCourse(courseId);
+
+                if (courseDTO == null)
                 {
-                    return NotFound();
+                    return NotFound($"Cours avec l'ID {courseId} non trouvé.");
                 }
-                //Convert Domain
-                var response = _mapper.Map<CourseDTO>(_mapper.Map<Course>(course));
-                return Ok(response);
+
+                // Inutile de mapper de nouveau le DTO en entité puis en DTO.
+                return Ok(courseDTO);
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting course record");
             }
         }
-        /*
-        [HttpGet("{courseId}/students")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudentsByCourse(int courseId)
+        #endregion Cours
+        #region Students
+        [HttpGet("GetStudentsByCourse/{courseId}")]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetStudentsByCourse(int courseId)
         {
             try
             {
-                IEnumerable<Student> students = await _courseRepository.GetStudentsByCourse(courseId);
+                IEnumerable<UserDTO> students = await _courseService.GetStudentsByCourse(courseId);
                 if (students == null)
                 {
                     return NotFound("No students found for this course");
@@ -148,17 +144,59 @@ namespace API.Controllers
                 {
                     return NotFound("No students found for this course");
                 }
-                return Ok(_mapper.Map<IEnumerable<StudentDTO>>(students));
+                return Ok(students);
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
-        }*/
-        [HttpPost("{courseId}/students/{studentId}")]
+        }
+        [HttpGet("GetCoursesByStudent/{studentId}")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByStudent(int studentId)
+        {
+            try
+            {
+                IEnumerable<CourseDTO> courses = await _courseService.GetCoursesByStudentId(studentId);
+                if (courses == null)
+                {
+                    return NotFound("No students found for this course");
+                }
+                if (!courses.Any())
+                {
+                    return NotFound("No students found for this course");
+                }
+                return Ok(courses);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+        }
+        [HttpGet("GetCoursesByInstructorName/{instructorName}")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByInstructorName(string instructorName)
+        {
+            try
+            {
+                IEnumerable<CourseDTO> courses = await _courseService.GetCoursesByInstructorName(instructorName);
+                if (courses == null)
+                {
+                    return NotFound("No students found for this course");
+                }
+                if (!courses.Any())
+                {
+                    return NotFound("No students found for this course");
+                }
+                return Ok(courses);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+        }
+        [HttpPost("AddStudentToCourse/{courseId}/{studentId}")]
         public async Task<IActionResult> AddStudentToCourse(int courseId, int studentId)
         {
-            var result = await _courseRepository.AddStudentToCourse(studentId, courseId);
+            var result = await _courseService.AddStudentToCourse(studentId, courseId);
             if (!result)
             {
                 return BadRequest("Could not add student to course");
@@ -167,10 +205,21 @@ namespace API.Controllers
             return Ok($"Student with Id = {studentId} added to course with Id = {courseId}");
 
         }
-        /*[HttpDelete("{courseId}/students/{studentId}")]
+        [HttpPost("AddInstructorToCourse/{courseId}/{instructorId}")]
+        public async Task<IActionResult> AddInstructorToCourse(int courseId,int instructorId)
+        {
+            var result = await _courseService.AddInstructorToCourse(instructorId, courseId);
+            if (!result)
+            {
+                return BadRequest("Could not add instructor to course");
+            }
+
+            return Ok($"Instructor with Id = {instructorId} added to course with Id = {courseId}");
+        }
+        [HttpDelete("{courseId}/students/{studentId}")]
         public async Task<IActionResult> RemoveStudentFromCourse(int courseId, int studentId)
         {
-            var result = await _courseRepository.RemoveStudentFromCourse(studentId, courseId);
+            var result = await _courseService.RemoveStudentFromCourse(studentId, courseId);
             if (!result)
             {
                 return BadRequest("Could not remove student from course");
@@ -178,7 +227,42 @@ namespace API.Controllers
 
             return Ok($"Student with Id = {studentId} removed from course with Id = {courseId}");
         }
-        [HttpPost("{courseId}/instructors/{instructorId}")]
+        #endregion Students
+        [HttpPut("UpdateCourseInstructor/{courseId}/{instructorName}")]
+        public async Task<IActionResult> UpdateCourseInstructor(int courseId, string instructorName)
+        {
+            try
+            {
+                var result = _courseService.UpdateCourseInstructor(courseId, instructorName);
+                if (await result)
+                {
+                    return Ok("Instructor changed");
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("RemoveAllStudentsFromCourse")]
+        public async Task<IActionResult> RemoveAllStudentsFromCourse(int courseId)
+        {
+            try
+            {
+                var result = _courseService.RemoveAllStudentsFromCourse(courseId);
+                if(await result)
+                {
+                    return Ok("Students removed");
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /*[HttpPost("{courseId}/instructors/{instructorId}")]
         public async Task<IActionResult> AddInstructorToCourse(int courseId, int instructorId)
         {
             var result = await _courseRepository.AddInstructorToCourse(instructorId, courseId);

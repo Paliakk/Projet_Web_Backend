@@ -144,13 +144,13 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ee51228-a0ad-44d6-9544-2d0d195c0bde",
+                            ConcurrencyStamp = "c1b90265-108c-4883-93c5-178ba0cacc8f",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
                             NormalizedUserName = "ADMIN@EPHEC.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPfeDDSltfLLGWvGAjgrKB6Mk7LF6e4q9pI5mA9vZhY+fMcpPruWwKeKBjxOXkwU8A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGl68gMBffpRBfQ42UoQr+uy57FSC0ZpMCpJyid5EE8TBfI3HwVR/l2qh+6Wh2uuvA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@ephec.be"
@@ -230,6 +230,37 @@ namespace Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("CourseInstructor");
+                });
+
             modelBuilder.Entity("Domain.Models.CourseStudent", b =>
                 {
                     b.Property<int>("Id")
@@ -241,8 +272,16 @@ namespace Data.Migrations
                     b.Property<int>("CourseID")
                         .HasColumnType("int");
 
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserID")
                         .HasColumnType("int");
+
+                    b.Property<string>("username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -361,6 +400,25 @@ namespace Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
+                {
+                    b.HasOne("Domain.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Models.CourseStudent", b =>

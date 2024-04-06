@@ -9,7 +9,7 @@ namespace Domain.Dtos
     public class UserDTO
     {
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Role { get; set; }
+        public string username { get; set; }
+        public string Email { get; set; }
     }
 }

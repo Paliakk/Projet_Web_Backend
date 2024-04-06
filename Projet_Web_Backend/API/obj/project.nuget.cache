@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V75Cbp29hh1ZOqqW7Ip4nuFsnXEwot2dP2CqopolXq113/mTvBv/xJhk/7Pp/LcdEgGfnrpyJ4fjGLdcpUFSjw==",
+  "dgSpecHash": "DWVoV5t+T+rz+ysT4asWchCMQ3O6BiUTpPOxe5eRxEjZPsf8kjZx6taShPC8GIxMMbdRT1MdSQSeBuoZ1wjWQQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\igorm\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\igorm\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

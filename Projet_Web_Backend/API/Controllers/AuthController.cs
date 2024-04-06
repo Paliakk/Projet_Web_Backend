@@ -27,8 +27,17 @@ namespace API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
         {
             //verif email
-            var identityUser = await userManager.FindByEmailAsync(request.Email);
-            
+            ApplicationUser identityUser = null;
+            // Vérifie si le Login est un email
+            if (request.Login.Contains("@"))
+            {
+                identityUser = await userManager.FindByEmailAsync(request.Login);
+            }
+            else
+            {
+                identityUser = await userManager.FindByNameAsync(request.Login);
+            }
+
             if (identityUser is not null)
             {
                 //Verif mdp
@@ -41,7 +50,7 @@ namespace API.Controllers
                     var jwtToken = tokenRepository.CreateJwtToken(identityUser, roles.ToList());
                     var response = new LoginResponsetDTO()
                     {
-                        Email = request.Email,
+                        Email = identityUser.Email,
                         Roles = roles.ToList(),
                         Token = jwtToken
                     };
@@ -62,7 +71,7 @@ namespace API.Controllers
             //Create IdentityUser object 
             var user = new ApplicationUser
             {
-                UserName = request.Email?.Trim(),
+                UserName = request.UserName?.Trim(),
                 Email = request.Email?.Trim()
             };
             // Create User

@@ -8108,11 +8108,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Data\\Data.csproj",
+      "projectUniqueName": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Data\\Data.csproj",
+      "projectPath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Data\\Data.csproj",
       "packagesPath": "C:\\Users\\igorm\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Data\\obj\\",
+      "outputPath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8134,8 +8134,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\igorm\\Desktop\\ProjetWebBack\\Projet_Web_Backend\\Domain\\Domain.csproj"
+            "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Domain\\Domain.csproj"
             }
           }
         }
