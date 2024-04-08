@@ -78,10 +78,19 @@ namespace Business.Repositories
         {
             return await _courseRepository.RemoveStudentFromCourse(studentId, courseId);
         }
+        public async Task<bool> RemoveInstructorFromCourse(int instructorId, int courseId)
+        {
+            return await _courseRepository.RemoveInstructorFromCourse(instructorId, courseId);
+        }
         public async Task<IEnumerable<UserDTO>> GetStudentsByCourse(int courseId)
         {
             var users = await _courseRepository.GetStudentsByCourse(courseId);
             return _mapper.Map<IEnumerable<UserDTO>>(users);
+        }
+        public async Task<IEnumerable<UserDTO>> GetInstructorBycourse(int courseId)
+        {
+            var user = await _courseRepository.GetInstructorBycourse(courseId);
+            return _mapper.Map<IEnumerable<UserDTO>>(user);
         }
         public async Task<IEnumerable<CourseDTO>> GetCoursesByStudentId(int studentId)
         {

@@ -17,7 +17,9 @@ namespace Business.Interfaces
         Task<CourseDTO> DeleteCourse(int courseId);
         Task<bool> AddStudentToCourse(int studentId, int courseId);
         Task<bool> RemoveStudentFromCourse(int studentId, int courseId);
+        Task<bool> RemoveInstructorFromCourse(int instructorId, int courseId);
         Task<IEnumerable<UserDTO>> GetStudentsByCourse(int courseId);
+        Task<IEnumerable<UserDTO>> GetInstructorBycourse(int courseId);
         Task<IEnumerable<CourseDTO>> GetCoursesByStudentId(int studentId);
         Task<bool> AddInstructorToCourse(int instructorId, int courseId);
         Task<IEnumerable<CourseDTO>> GetCoursesByInstructorName(string instructorName);

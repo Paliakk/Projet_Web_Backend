@@ -42,9 +42,9 @@ namespace Business.Repositories
         {
             await _userRepository.DeleteAsync(userID);
         }
-        public async Task UpdateAsync(UserUpdateDTO user)
+        public async Task UpdateAsync(int id,UserUpdateDTO user)
         {
-            var userToUpdate = await _userRepository.GetUserById(user.Id);
+            var userToUpdate = await _userRepository.GetUserById(id);
             if (userToUpdate == null)
             {
                 throw new KeyNotFoundException("Utilisateur non trouvé avec l'ID spécifié.");

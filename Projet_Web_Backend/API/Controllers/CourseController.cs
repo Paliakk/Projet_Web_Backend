@@ -151,20 +151,27 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+        [HttpGet("GetInstructorsByCourse/{courseId}")]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetInstructorBycourse(int courseId)
+        {
+            try
+            {
+                IEnumerable<UserDTO> instructors = await _courseService.GetInstructorBycourse(courseId);
+                if(instructors == null) { return NotFound(new { message = "No instructors found for this course" }); }
+                if (!instructors.Any()) { return NotFound(new { message = "No instructors found for this course" }); }
+                return Ok(instructors);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+        }
         [HttpGet("GetCoursesByStudent/{studentId}")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByStudent(int studentId)
         {
             try
             {
                 IEnumerable<CourseDTO> courses = await _courseService.GetCoursesByStudentId(studentId);
-                if (courses == null)
-                {
-                    return NotFound("No students found for this course");
-                }
-                if (!courses.Any())
-                {
-                    return NotFound("No students found for this course");
-                }
                 return Ok(courses);
             }
             catch (Exception)
@@ -199,10 +206,10 @@ namespace API.Controllers
             var result = await _courseService.AddStudentToCourse(studentId, courseId);
             if (!result)
             {
-                return BadRequest("Could not add student to course");
+                return BadRequest(new { message = "Could not add student to course" });
             }
 
-            return Ok($"Student with Id = {studentId} added to course with Id = {courseId}");
+            return Ok(new {message = $"Student with Id = {studentId} added to course with Id = {courseId}" });
 
         }
         [HttpPost("AddInstructorToCourse/{courseId}/{instructorId}")]
@@ -216,16 +223,23 @@ namespace API.Controllers
 
             return Ok($"Instructor with Id = {instructorId} added to course with Id = {courseId}");
         }
-        [HttpDelete("{courseId}/students/{studentId}")]
+        [HttpDelete("RemoveStudentFromCourse/{courseId}/students/{studentId}")]
         public async Task<IActionResult> RemoveStudentFromCourse(int courseId, int studentId)
         {
             var result = await _courseService.RemoveStudentFromCourse(studentId, courseId);
             if (!result)
             {
-                return BadRequest("Could not remove student from course");
+                return BadRequest(new { message = "Could not remove student from course" });
             }
 
-            return Ok($"Student with Id = {studentId} removed from course with Id = {courseId}");
+            return Ok(new {message = $"Student with Id = {studentId} removed from course with Id = {courseId}" });
+        }
+        [HttpDelete("RemoveInstructorFromCourse/{courseId}/{instructorId}")]
+        public async Task<ActionResult> RemoveInstructorFromCourse(int instructorId, int courseId)
+        {
+            var result = await _courseService.RemoveInstructorFromCourse(instructorId, courseId);
+            if (!result) { return BadRequest(new {message = "Could not remove instructor from course" }); }
+            return Ok(new { message = $"Instructor with Id = {instructorId} removed from course with Id = {courseId}" });
         }
         #endregion Students
         [HttpPut("UpdateCourseInstructor/{courseId}/{instructorName}")]

@@ -15,7 +15,7 @@ namespace Business.Interfaces
         Task<UserDTO> GetUserById(int userID);
         Task<IdentityResult> AddAsync(UserAddDTO user, string roleName);
         Task DeleteAsync(int userID);
-        Task UpdateAsync(UserUpdateDTO user);
+        Task UpdateAsync(int id,UserUpdateDTO user);
         Task<UserDTO> GetByUsernameAsync(string username);
         Task<string> GetUserRoleAsync(string username);
         Task<IEnumerable<UserDTO>> GetAllStudents();

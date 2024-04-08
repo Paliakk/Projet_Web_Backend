@@ -65,6 +65,18 @@ public class CourseRepository : ICourseRepository
             .ToList();
         return students;
     }
+    public async Task<IEnumerable<ApplicationUser>> GetInstructorBycourse(int courseId)
+    {
+        var courseWithInstructor = await _context.CourseInstructor
+            .Where (ci=> ci.CourseID == courseId)
+            .Include(ci => ci.User)
+            .ToListAsync();
+        var instructors = courseWithInstructor
+            .Where (ci => ci.User != null)
+            .Select (ci=>ci.User)
+            .ToList();
+        return instructors;
+    }
     public async Task<IEnumerable<Course>> GetCoursesByInstructorName(string instructorName)
     {
         var coursesWithInstructor = await _context.CourseInstructor
@@ -179,6 +191,15 @@ public class CourseRepository : ICourseRepository
         //Supprimer la relation si existante
         _context.CourseStudent.Remove(courseStudent);
         await _context.SaveChangesAsync();
+        return true;
+    }
+    public async Task<bool> RemoveInstructorFromCourse(int instructorId, int courseId)
+    {
+        var courseInstructor = await _context.CourseInstructor
+            .FirstOrDefaultAsync(ci => ci.UserID == instructorId && ci.CourseID == courseId);
+        if( courseInstructor == null) { return false; }
+        _context.CourseInstructor.Remove(courseInstructor);
+        _context.SaveChangesAsync();
         return true;
     }
     public async Task<bool> UpdateCourseInstructor(int courseId, string instructorName)

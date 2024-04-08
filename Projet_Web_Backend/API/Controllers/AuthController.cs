@@ -50,6 +50,7 @@ namespace API.Controllers
                     var jwtToken = tokenRepository.CreateJwtToken(identityUser, roles.ToList());
                     var response = new LoginResponsetDTO()
                     {
+                        Id = identityUser.Id,
                         Email = identityUser.Email,
                         Roles = roles.ToList(),
                         Token = jwtToken

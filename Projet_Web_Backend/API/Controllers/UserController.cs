@@ -84,7 +84,7 @@ namespace API.Controllers
                     return NotFound();
                 }
                 //Convert Domain
-                var response = _userService.DeleteAsync(userID);
+                await _userService.DeleteAsync(userID);
                 return Ok();
             }
             catch (Exception)
@@ -95,13 +95,9 @@ namespace API.Controllers
         [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userUpdateDTO)
         {
-            if (id != userUpdateDTO.Id)
-            {
-                return BadRequest("L'ID de l'URL ne correspond pas à l'ID dans le corps de la requête.");
-            }
             try
             {
-                await _userService.UpdateAsync(userUpdateDTO);
+                await _userService.UpdateAsync(id,userUpdateDTO);
                 return NoContent(); // Retourne un succès sans contenu, indiquant que la mise à jour a réussi
             }
             catch (KeyNotFoundException ex)
@@ -149,6 +145,7 @@ namespace API.Controllers
 
         }
         [HttpGet("GetAllStudents")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllStudents()
         {
             try
