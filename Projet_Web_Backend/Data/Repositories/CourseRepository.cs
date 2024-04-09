@@ -199,19 +199,27 @@ public class CourseRepository : ICourseRepository
             .FirstOrDefaultAsync(ci => ci.UserID == instructorId && ci.CourseID == courseId);
         if( courseInstructor == null) { return false; }
         _context.CourseInstructor.Remove(courseInstructor);
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return true;
     }
     public async Task<bool> UpdateCourseInstructor(int courseId, string instructorName)
     {
-        var course = _context.CourseInstructor.Find(courseId);
-        if (course == null)
+        var courseInstructor = await _context.CourseInstructor
+            .Where (ci => ci.CourseID == courseId)
+            .FirstOrDefaultAsync();
+        var newInstructor = await _userManager.Users
+            .Where(i => i.UserName == instructorName)
+            .FirstOrDefaultAsync();
+
+        if (courseInstructor == null)
         {
             throw new Exception("Course not found");
             return false;
         }
-        _context.Entry(course).CurrentValues.SetValues(instructorName);
-        _context.SaveChangesAsync(); return true;
+        courseInstructor.username = instructorName;
+        courseInstructor.UserID = newInstructor.Id;
+        await _context.SaveChangesAsync(); 
+        return true;
     }
     public async Task<bool> RemoveAllStudentsFromCourse(int courseId)
     {

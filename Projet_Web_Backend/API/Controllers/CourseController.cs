@@ -156,10 +156,11 @@ namespace API.Controllers
         {
             try
             {
-                IEnumerable<UserDTO> instructors = await _courseService.GetInstructorBycourse(courseId);
-                if(instructors == null) { return NotFound(new { message = "No instructors found for this course" }); }
-                if (!instructors.Any()) { return NotFound(new { message = "No instructors found for this course" }); }
-                return Ok(instructors);
+                var instructors = await _courseService.GetInstructorBycourse(courseId);
+
+                // La vérification de la liste nulle n'est plus nécessaire ici car vous allez retourner une liste vide si aucun instructeur n'est trouvé.
+                // Retourner directement les instructeurs (qui sera une liste vide si aucun n'est trouvé)
+                return Ok(instructors ?? new List<UserDTO>());
             }
             catch (Exception)
             {
@@ -221,7 +222,7 @@ namespace API.Controllers
                 return BadRequest("Could not add instructor to course");
             }
 
-            return Ok($"Instructor with Id = {instructorId} added to course with Id = {courseId}");
+            return Ok(new {message = $"Instructor with Id = {instructorId} added to course with Id = {courseId}" });
         }
         [HttpDelete("RemoveStudentFromCourse/{courseId}/students/{studentId}")]
         public async Task<IActionResult> RemoveStudentFromCourse(int courseId, int studentId)
@@ -247,12 +248,13 @@ namespace API.Controllers
         {
             try
             {
-                var result = _courseService.UpdateCourseInstructor(courseId, instructorName);
-                if (await result)
+                var result = await _courseService.UpdateCourseInstructor(courseId, instructorName);
+                if (!result)
                 {
-                    return Ok("Instructor changed");
+                    return BadRequest();
+
                 }
-                return BadRequest();
+                return Ok("Instructor changed");
             }
             catch(Exception ex)
             {
