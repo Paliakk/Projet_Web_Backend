@@ -254,7 +254,7 @@ namespace API.Controllers
                     return BadRequest();
 
                 }
-                return Ok("Instructor changed");
+                return Ok(new {message = "Instructor changed" });
             }
             catch(Exception ex)
             {
