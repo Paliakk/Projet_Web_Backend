@@ -1,7 +1,6 @@
 using Data.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Data.Repositories;
@@ -53,7 +52,7 @@ public class CourseRepository : ICourseRepository
         return existingCourse;
     }
 
-    public async Task<IEnumerable<ApplicationUser>> GetStudentsByCourse(int courseId)
+    public async Task<IEnumerable<ApplicationUser?>> GetStudentsByCourse(int courseId)
     {
         var coursesWithStudents = await _context.CourseStudent.
             Where(cs => cs.CourseID == courseId)
@@ -65,7 +64,7 @@ public class CourseRepository : ICourseRepository
             .ToList();
         return students;
     }
-    public async Task<IEnumerable<ApplicationUser>> GetInstructorBycourse(int courseId)
+    public async Task<IEnumerable<ApplicationUser?>> GetInstructorBycourse(int courseId)
     {
         var courseWithInstructor = await _context.CourseInstructor
             .Where (ci=> ci.CourseID == courseId)
@@ -77,7 +76,7 @@ public class CourseRepository : ICourseRepository
             .ToList();
         return instructors;
     }
-    public async Task<IEnumerable<Course>> GetCoursesByInstructorName(string instructorName)
+    public async Task<IEnumerable<Course?>> GetCoursesByInstructorName(string instructorName)
     {
         var coursesWithInstructor = await _context.CourseInstructor
             .Where(ci => ci.username.Equals(instructorName))
@@ -86,7 +85,7 @@ public class CourseRepository : ICourseRepository
             .ToListAsync();
         return coursesWithInstructor;
     }
-    public async Task<IEnumerable<Course>> GetCoursesByStudentId(int studentId)
+    public async Task<IEnumerable<Course?>> GetCoursesByStudentId(int studentId)
     {
         var courses = await _context.CourseStudent
         .Where(cs => cs.UserID == studentId)
@@ -100,8 +99,7 @@ public class CourseRepository : ICourseRepository
     {
         //Verif si l'user existe
         var user = await _context.Users.FindAsync(studentId);
-        var _username = user.UserName;
-        if (user == null)
+        if (user == null || user.UserName == null)
         {
             return false;
         }
@@ -113,8 +111,7 @@ public class CourseRepository : ICourseRepository
         }
         //vérif si cours existe
         var course = await _context.Course.FindAsync(courseId);
-        var _courseName = course.Name;
-        if (course == null)
+        if (course == null || course.Name == null)
         {
             return false;
         }
@@ -129,9 +126,9 @@ public class CourseRepository : ICourseRepository
         {
             UserID = studentId,
             CourseID = courseId,
-            CourseName = _courseName,
-            username = _username
-             
+            CourseName = course.Name,
+            username = user.UserName
+
         };
         _context.CourseStudent.Add(courseStudent);
         await _context.SaveChangesAsync();
@@ -141,8 +138,7 @@ public class CourseRepository : ICourseRepository
     {
         //Verif si l'user existe
         var user = await _context.Users.FindAsync(instructorId);
-        var _username = user.UserName;
-        if (user == null)
+        if (user == null || user.UserName == null)
         {
             return false;
         }
@@ -154,8 +150,7 @@ public class CourseRepository : ICourseRepository
         }
         //vérif si cours existe
         var course = await _context.Course.FindAsync(courseId);
-        var _courseName = course.Name;
-        if (course == null)
+        if (course == null || course.Name == null)
         {
             return false;
         }
@@ -170,8 +165,8 @@ public class CourseRepository : ICourseRepository
         {
             UserID = instructorId,
             CourseID = courseId,
-            CourseName = _courseName,
-            username = _username
+            CourseName = course.Name,
+            username = user.UserName
 
         };
         _context.CourseInstructor.Add(courseInstructor);
@@ -214,7 +209,11 @@ public class CourseRepository : ICourseRepository
         if (courseInstructor == null)
         {
             throw new Exception("Course not found");
-            return false;
+        }
+
+        if (newInstructor == null)
+        {
+            return false;  // Ajout d'un check pour newInstructor avant de l'utiliser.
         }
         courseInstructor.username = instructorName;
         courseInstructor.UserID = newInstructor.Id;

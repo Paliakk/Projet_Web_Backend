@@ -19,6 +19,8 @@ namespace Data
         public DbSet<Course> Course { get; set; }
         public DbSet<CourseStudent> CourseStudent { get; set; }
         public DbSet<CourseInstructor> CourseInstructor { get; set; }
+        public DbSet<Assignment> Assignment { get; set; }
+        public DbSet<StudentAssignment> StudentAssignment { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

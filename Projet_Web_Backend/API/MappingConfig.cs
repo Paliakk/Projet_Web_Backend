@@ -13,5 +13,12 @@ public class MappingConfig : Profile
         CreateMap<ApplicationUser, UserUpdateDTO>().ReverseMap();
         CreateMap<ApplicationUser, UserDTO>().ReverseMap();
         CreateMap<ApplicationUser, UserAddDTO>().ReverseMap();
+        CreateMap<Assignment, AssignementReadDTO>().ReverseMap();
+        CreateMap<Assignment, AssignementCreateDTO>().ReverseMap();
+        CreateMap<Assignment, AssignementUpdateDTO>().ReverseMap();
+        CreateMap<Assignment, AssignementDetailDTO>().ReverseMap();
+        CreateMap<StudentAssignment, StudentAssignmentDTO>().ReverseMap();
+        CreateMap<StudentAssignment, StudentAssignmentCreateDTO>().ReverseMap();
+        CreateMap<StudentAssignment, StudentAssignmentUpdateDTO>().ReverseMap();
     }
 }

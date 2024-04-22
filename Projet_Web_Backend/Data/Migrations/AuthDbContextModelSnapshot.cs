@@ -144,17 +144,41 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c1b90265-108c-4883-93c5-178ba0cacc8f",
+                            ConcurrencyStamp = "2653f2a6-20a5-4edd-84a7-c945ce404c1f",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
                             NormalizedUserName = "ADMIN@EPHEC.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGl68gMBffpRBfQ42UoQr+uy57FSC0ZpMCpJyid5EE8TBfI3HwVR/l2qh+6Wh2uuvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPLFPE5U5SKVHxmpYTgQZ7NrF184NwNxJ5WLrORcISh9a8RBo16G0xX4kl+vpYp+Nw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@ephec.be"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Assignment");
                 });
 
             modelBuilder.Entity("Domain.Models.Course", b =>
@@ -292,6 +316,32 @@ namespace Data.Migrations
                     b.ToTable("CourseStudent");
                 });
 
+            modelBuilder.Entity("Domain.Models.StudentAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentAssignment");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -402,6 +452,17 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Models.Assignment", b =>
+                {
+                    b.HasOne("Domain.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
                 {
                     b.HasOne("Domain.Models.Course", "Course")
@@ -438,6 +499,25 @@ namespace Data.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.StudentAssignment", b =>
+                {
+                    b.HasOne("Domain.Models.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.ApplicationUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

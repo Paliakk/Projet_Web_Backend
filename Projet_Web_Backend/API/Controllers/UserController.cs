@@ -145,7 +145,7 @@ namespace API.Controllers
 
         }
         [HttpGet("GetAllStudents")]
-        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
+        //[Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllStudents()
         {
             try
