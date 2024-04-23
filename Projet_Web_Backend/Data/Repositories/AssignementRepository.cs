@@ -62,7 +62,7 @@ namespace Data.Repositories
             var existingAssignement = await _context.Assignment.FirstOrDefaultAsync(c => c.Id == assignement.Id);
             if (existingAssignement != null)
             {
-                _context.Entry(existingAssignement).CurrentValues.SetValues(existingAssignement);
+                _context.Entry(existingAssignement).CurrentValues.SetValues(assignement);
                 await _context.SaveChangesAsync();
             }
         }

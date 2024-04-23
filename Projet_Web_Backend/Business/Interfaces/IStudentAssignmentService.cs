@@ -14,6 +14,7 @@ namespace Business.Interfaces
         Task<IEnumerable<StudentAssignmentDTO>> GetAllAsync();
         Task<IEnumerable<StudentAssignmentDTO>> GetByStudentIdAsync(int studentId);
         Task<IEnumerable<StudentAssignmentDTO>> GetByAssignmentIdAsync(int assignmentId);
+        Task<bool> AddGradeAsync(StudentAssignmentGradeDTO dto);
         Task<bool> AddAsync(int studentId, int assignmentId);
         Task<bool> UpdateAsync(StudentAssignmentUpdateDTO studentAssignmentDto);
         Task<bool> DeleteAsync(int id);

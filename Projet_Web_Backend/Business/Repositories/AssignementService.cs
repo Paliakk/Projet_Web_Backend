@@ -70,6 +70,7 @@ namespace Business.Repositories
             if (existingAssignement.Id == assignement.Id)
             {
                 var assignementToUpdate = _mapper.Map<Assignment>(assignement);
+                assignementToUpdate.CourseId = existingAssignement.CourseId;
                 await _assignementRepository.UpdateAsync(assignementToUpdate);
             }
         }

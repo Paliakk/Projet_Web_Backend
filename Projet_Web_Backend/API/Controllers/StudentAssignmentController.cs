@@ -43,6 +43,12 @@ namespace API.Controllers
             var result = await _studentAssignmentService.AddAsync(studentId,assignmentId);
             return Ok(result);
         }
+        [HttpPut("UpdateStudentAssignmentGrade")]
+        public async Task<IActionResult> UpdateStudentAssignmentGrade([FromBody] StudentAssignmentGradeDTO studentAssignment)
+        {
+            var result = await _studentAssignmentService.AddGradeAsync(studentAssignment);
+            return Ok(result);
+        }
         [HttpPut("UpdateStudentAssignment")]
         public async Task<IActionResult> UpdateStudentAssignment([FromBody] StudentAssignmentUpdateDTO studentAssignment)
         {
