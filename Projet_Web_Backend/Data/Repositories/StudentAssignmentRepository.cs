@@ -48,14 +48,15 @@ namespace Data.Repositories
             var studentAssignment = new StudentAssignment
             {
                 StudentId = studentId,
-                AssignmentId = assignmentId
+                AssignmentId = assignmentId,
+                Status = "Active"
             };
             await _context.StudentAssignment.AddAsync(studentAssignment);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> AddGradeAsync(int studentAssignmentId, int grade)
+        public async Task<bool> AddGradeAsync(int studentAssignmentId, decimal grade)
         {
             var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.Id == studentAssignmentId);
             if (existingStudentAssignment == null)
