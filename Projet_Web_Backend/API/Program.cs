@@ -24,6 +24,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
+// Add Swagger Gen with Schema Filters
 builder.Services.AddSwaggerGen();
 
 var configuration = builder.Configuration;
@@ -33,6 +34,7 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
+// Add repositories and services
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IAssignementRepository, AssignementRepository>();
@@ -45,12 +47,14 @@ builder.Services.AddScoped<IAssignementService, AssignementService>();
 builder.Services.AddScoped<ICourseGradeService, CourseGradeService>();
 builder.Services.AddScoped<IStudentAssignmentService, StudentAssignmentService>();
 
+// Include other dependencies...
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddRoles<ApplicationRole>()
     .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CodePulse")
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddDefaultTokenProviders();
 
+// Configure Identity Options
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = false;
@@ -61,6 +65,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 
+// Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -101,3 +106,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+

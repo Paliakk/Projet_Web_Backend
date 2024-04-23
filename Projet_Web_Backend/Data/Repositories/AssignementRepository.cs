@@ -18,7 +18,7 @@ namespace Data.Repositories
         }
         public async Task<Assignment> AddAsync(Assignment assignement)
         {
-            //Ajouter un assignement
+            //Ajouter un assignment
             var result = await _context.Assignment.AddAsync(assignement);
             await _context.SaveChangesAsync();
             return result.Entity;
