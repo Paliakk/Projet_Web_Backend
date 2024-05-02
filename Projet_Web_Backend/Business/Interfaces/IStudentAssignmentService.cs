@@ -18,5 +18,7 @@ namespace Business.Interfaces
         Task<bool> AddAsync(int studentId, int assignmentId);
         Task<bool> UpdateAsync(StudentAssignmentUpdateDTO studentAssignmentDto);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<StudentAssignmentDTO>> GetAllWithCourseNameAsync(int studentId);
+        Task<IEnumerable<StudentAssignmentDetailedDTO>> GetDetailedAssignmentsByStudentId(int studentId);
     }
 }

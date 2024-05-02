@@ -64,6 +64,7 @@ namespace Data.Repositories
                 throw new KeyNotFoundException("Devoir de l'étudiant non trouvé avec l'ID spécifié.");
             }
             existingStudentAssignment.Grade = grade;
+            existingStudentAssignment.Status = "Completed";
             await _context.SaveChangesAsync();
             return true;
         }

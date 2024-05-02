@@ -13,6 +13,7 @@ namespace Domain.Dtos
     public class AssignementReadDTO
     {
         public int Id { get; set; }
+        public int CourseId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime? Deadline { get; set; }
@@ -77,6 +78,8 @@ namespace Domain.Dtos
     public class StudentAssignmentDTO
     {
         public int Id { get; set; }
+        public int courseId { get; set; }
+        public string CourseName { get; set; }
         public int StudentId { get; set; }
         public string studentName { get; set; }
         public int AssignmentId { get; set; }
@@ -106,6 +109,17 @@ namespace Domain.Dtos
         public int Id { get; set; }
         [Range(0, 20, ErrorMessage = "La valeur doit être comprise entre 0 et 20")]
         public decimal Grade { get; set; }
+    }
+    public class StudentAssignmentDetailedDTO
+    {
+        public int assignmentId { get; set; }
+        public string AssignmentTitle { get; set; }
+        public string AssignmentDescription { get; set; }
+        public DateTime? AssignmentDeadline { get; set; }
+        public int courseId { get; set; }
+        public string CourseName { get; set; }
+        public decimal? Grade { get; set; }
+        public AssignmentStatus Status { get; set; }
     }
     public class CustomDateTimeConverter : JsonConverter<DateTime?>
     {

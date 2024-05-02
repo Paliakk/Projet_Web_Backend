@@ -61,6 +61,18 @@ namespace API.Controllers
             var result = await _studentAssignmentService.DeleteAsync(studentAssignmentId);
             return Ok(result);
         }
+        [HttpGet("GetAllStudentAssignmentsWithCourseName/{studentId}")]
+        public async Task<IActionResult> GetAllStudentAssignmentsWithCourseName(int studentId)
+        {
+            var studentAssignments = await _studentAssignmentService.GetAllWithCourseNameAsync( studentId);
+            return Ok(studentAssignments);
+        }
+        [HttpGet("GetDetailedAssignmentsByStudentId/{studentId}")]
+        public async Task<IActionResult> GetDetailedAssignmentsByStudentId(int studentId)
+        {
+            var studentAssignments = await _studentAssignmentService.GetDetailedAssignmentsByStudentId(studentId);
+            return Ok(studentAssignments);
+        }
 
     }
 }
