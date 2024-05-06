@@ -86,6 +86,7 @@ namespace Domain.Dtos
         public string assignmentTitle { get; set; }
         public int? Grade { get; set; }
         public AssignmentStatus Status { get; set; } // Default status set to Active // Active, Completed, Cancelled
+        public string FilePath { get; set; }
     }
 
     public class StudentAssignmentCreateDTO
@@ -112,14 +113,18 @@ namespace Domain.Dtos
     }
     public class StudentAssignmentDetailedDTO
     {
+        public int Id { get; set; }
         public int assignmentId { get; set; }
         public string AssignmentTitle { get; set; }
         public string AssignmentDescription { get; set; }
         public DateTime? AssignmentDeadline { get; set; }
+        public int StudentId { get; set; }
+        public string studentName { get; set; }
         public int courseId { get; set; }
         public string CourseName { get; set; }
         public decimal? Grade { get; set; }
         public AssignmentStatus Status { get; set; }
+        public string FilePath { get; set; }
     }
     public class CustomDateTimeConverter : JsonConverter<DateTime?>
     {
@@ -150,7 +155,9 @@ namespace Domain.Dtos
         {
             Active,
             Completed,
-            Cancelled
+            Cancelled,
+            Submitted,
+            Late
         }
     }
 }

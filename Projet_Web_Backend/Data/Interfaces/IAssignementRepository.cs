@@ -9,7 +9,7 @@ namespace Data.Interfaces
 {
     public interface IAssignementRepository
     {
-        Task<Assignment?> GetByIdAsync(int id);
+        Task<Assignment> GetByIdAsync(int id);
         Task<IEnumerable<Assignment>> GetAllAsync();
         Task<IEnumerable<Assignment>> GetByCourseIdAsync(int courseId);
         Task<Assignment?> SearchByTitleAsync(string title);

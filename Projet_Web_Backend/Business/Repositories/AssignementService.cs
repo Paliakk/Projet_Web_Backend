@@ -5,6 +5,7 @@ using Domain.Dtos;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +15,30 @@ namespace Business.Repositories
     public class AssignementService : IAssignementService
     {
         private readonly IAssignementRepository _assignementRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly IStudentAssignmentRepository _studentAssignmentRepository;
         IMapper _mapper;
-        public AssignementService(IAssignementRepository assignementRepository, IMapper mapper)
+        public AssignementService(IAssignementRepository assignementRepository, ICourseRepository courseRepository,IStudentAssignmentRepository studentAssignmentRepository,IMapper mapper)
         {
             _assignementRepository = assignementRepository;
             _mapper = mapper;
+            _courseRepository = courseRepository;
+            _studentAssignmentRepository = studentAssignmentRepository;
         }
-        public Task<Assignment> AddAsync(AssignementCreateDTO assignement)
+        public async Task<Assignment> AddAsync(AssignementCreateDTO assignement)
         {
             var assignementToAdd = _mapper.Map<Assignment>(assignement);
-            return _assignementRepository.AddAsync(assignementToAdd);
+            var addedAssignment = await _assignementRepository.AddAsync(assignementToAdd);
+            if (addedAssignment != null)
+            {
+                var students = await _courseRepository.GetStudentsByCourse(assignement.CourseId);
+                foreach (var student in students)
+                {
+                    await _studentAssignmentRepository.AddAsync(student.Id, addedAssignment.Id);
+                }
+                return addedAssignment;
+            }
+            return null;
         }
 
         public async Task<AssignementReadDTO> DeleteAsync(int assignementId)

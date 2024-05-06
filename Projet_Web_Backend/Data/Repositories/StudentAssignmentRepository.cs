@@ -69,6 +69,36 @@ namespace Data.Repositories
             return true;
         }
 
+        public async Task<bool> SubmitAssignment(int studentAssignmentId, string filePath)
+        {
+            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.AssignmentId == studentAssignmentId);
+            if (existingStudentAssignment == null)
+            {
+                throw new KeyNotFoundException("Devoir de l'étudiant non trouvé avec l'ID spécifié.");
+            }
+            existingStudentAssignment.FilePath = filePath;
+            existingStudentAssignment.Status = "Submitted";
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> LateAssignment(int studentAssignmentId)
+        {
+            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.AssignmentId == studentAssignmentId);
+            if(existingStudentAssignment == null)
+            {
+                throw new KeyNotFoundException("Devoir de l'étudiant non trouvé avec l'ID spécifié.");
+            }
+            if(existingStudentAssignment.FilePath == null)
+            {
+                existingStudentAssignment.Grade = 0;
+                existingStudentAssignment.Status = "Late";
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+            
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.Id == id);

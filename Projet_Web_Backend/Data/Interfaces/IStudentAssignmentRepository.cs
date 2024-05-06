@@ -14,8 +14,10 @@ namespace Data.Interfaces
         Task<IEnumerable<StudentAssignment>> GetByStudentIdAsync(int studentId);
         Task<IEnumerable<StudentAssignment>> GetByAssignmentIdAsync(int assignmentId);
         Task<bool> AddGradeAsync(int studentAssignmentId, decimal grade);
+        Task<bool> SubmitAssignment(int studentAssignmentId, string filePath);
         Task<bool> AddAsync(int studentId, int assignmentId);
         Task<bool> UpdateAsync(StudentAssignment studentAssignment);
         Task<bool> DeleteAsync(int id);
+        Task<bool> LateAssignment(int studentAssignmentId);
     }
 }

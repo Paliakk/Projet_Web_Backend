@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503150425_assignmentFilePath")]
+    partial class assignmentFilePath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,13 +147,13 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d13bab52-4c22-463f-9945-6e78883ec7ef",
+                            ConcurrencyStamp = "ed7254d1-f1a6-4972-914b-5386a2380bfa",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
                             NormalizedUserName = "ADMIN@EPHEC.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJjS+MoZff2QkmP/Hcw4ish2wyOcnumC+MTmXn8hwGD1w4dds9cQoknDB2S6MSFwLA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHzip8XqdoNv8VAzusCFYpe5i1zFgmxjpwHKbVEdcBD1WImrh67eZLhAZJ3W7Qnbaw==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@ephec.be"
@@ -334,6 +337,7 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FilePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Grade")

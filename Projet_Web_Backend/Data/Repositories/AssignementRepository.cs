@@ -24,7 +24,7 @@ namespace Data.Repositories
             return result.Entity;
         }
 
-        public async Task<Assignment?> DeleteAsync(int assignementId)
+        public async Task<Assignment> DeleteAsync(int assignementId)
         {
             var existingAssignement = await _context.Assignment.FirstOrDefaultAsync(c => c.Id == assignementId);
             if (existingAssignement is null)
@@ -42,9 +42,10 @@ namespace Data.Repositories
             return assignements;
         }
 
-        public async Task<Assignment?> GetByIdAsync(int id)
+        public async Task<Assignment> GetByIdAsync(int id)
         {
-            return await _context.Assignment.FirstOrDefaultAsync(c => c.Id == id);
+            var result = await _context.Assignment.FirstOrDefaultAsync(c => c.Id == id);
+            return result;
         }
 
         public async Task<IEnumerable<Assignment>> GetByCourseIdAsync(int courseId)

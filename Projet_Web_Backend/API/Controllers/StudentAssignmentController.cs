@@ -55,6 +55,12 @@ namespace API.Controllers
             var result = await _studentAssignmentService.UpdateAsync(studentAssignment);
             return Ok(result);
         }
+        [HttpPost("SubmitStudentAssignment/{studentAssignmentId}")]
+        public async Task<IActionResult> SubmitStudentAssignment(int studentAssignmentId,string filePath)
+        {
+            var result = await _studentAssignmentService.SubmitAssignment(studentAssignmentId,filePath);
+            return Ok(result);
+        }
         [HttpDelete("DeleteStudentAssignment/{studentAssignmentId}")]
         public async Task<IActionResult> DeleteStudentAssignment(int studentAssignmentId)
         {
@@ -72,6 +78,12 @@ namespace API.Controllers
         {
             var studentAssignments = await _studentAssignmentService.GetDetailedAssignmentsByStudentId(studentId);
             return Ok(studentAssignments);
+        }
+        [HttpPut("LateAssignment/{studentAssignmentId}")]
+        public async Task<IActionResult> LateAssignment(int studentAssignmentId)
+        {
+            var result = await _studentAssignmentService.LateAssignment(studentAssignmentId);
+            return Ok(result);
         }
 
     }
