@@ -23,7 +23,7 @@ namespace API.Controllers
         #region Cours
         // GET: http://localhost:5137/api/Course
         [HttpGet("GetAllCourses")]
-        //[Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCourses()
         {
             try
