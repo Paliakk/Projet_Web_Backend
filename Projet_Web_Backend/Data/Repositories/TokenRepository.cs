@@ -42,7 +42,7 @@ namespace Data.Repositories
                 issuer: configuration["Jwt:Issuer"],
                 audience: configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials);
 
             // Générer le refresh token
@@ -50,7 +50,7 @@ namespace Data.Repositories
 
             // Mettre à jour l'utilisateur avec le nouveau refresh token
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1); // par exemple, expirer dans 7 jours
+            user.RefreshTokenExpiryTime = DateTime.Now.AddHours(2); // par exemple, expirer dans 2 heures
             _userManager.UpdateAsync(user).Wait();
 
             // return token

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,6 +18,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<IEnumerable<AssignementReadDTO>>> GetAllAssignements()
         {
             try
@@ -29,6 +31,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAssignementById/{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<AssignementReadDTO>> GetAssignementById(int id)
         {
             try
@@ -42,6 +45,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAssignementByCourseId/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<IEnumerable<AssignementReadDTO>>> GetAssignementByCourseId(int courseId)
         {
             try
@@ -55,6 +59,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("SearchAssignementByTitle/{title}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<AssignementReadDTO>> SearchAssignementByTitle(string title)
         {
             try
@@ -68,6 +73,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("CreateAssignement")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<AssignementReadDTO>> AddAssignement(AssignementCreateDTO assignement)
         {
             try
@@ -81,6 +87,7 @@ namespace API.Controllers
             }
         }
         [HttpPut("UpdateAssignement")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult> UpdateAssignement(AssignementUpdateDTO assignement)
         {
             try
@@ -94,6 +101,7 @@ namespace API.Controllers
             }
         }
         [HttpDelete("DeleteAssignement/{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<AssignementReadDTO>> DeleteAssignement(int id)
         {
             try

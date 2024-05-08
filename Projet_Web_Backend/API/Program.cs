@@ -38,13 +38,11 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IAssignementRepository, AssignementRepository>();
-builder.Services.AddScoped<IGradeCourseRepository, GradeCourseRepository>();
 builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IAssignementService, AssignementService>();
-builder.Services.AddScoped<ICourseGradeService, CourseGradeService>();
 builder.Services.AddScoped<IStudentAssignmentService, StudentAssignmentService>();
 
 // Include other dependencies...
