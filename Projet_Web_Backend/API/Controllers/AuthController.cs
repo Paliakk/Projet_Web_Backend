@@ -47,13 +47,14 @@ namespace API.Controllers
                 {
                     var roles = await userManager.GetRolesAsync(identityUser);
                     //creation de token et reponse
-                    var jwtToken = tokenRepository.CreateJwtToken(identityUser, roles.ToList());
+                    var (jwtToken, refreshToken) = tokenRepository.CreateJwtToken(identityUser, roles.ToList());
                     var response = new LoginResponsetDTO()
                     {
                         Id = identityUser.Id,
                         Email = identityUser.Email,
                         Roles = roles.ToList(),
-                        Token = jwtToken
+                        Token = jwtToken,
+                        RefreshToken = refreshToken
                     };
                     return Ok(response);
                 }
@@ -111,5 +112,31 @@ namespace API.Controllers
 
             return ValidationProblem(ModelState);
         }
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO request)
+        {
+            var principal = tokenRepository.GetPrincipalFromExpiredToken(request.Token);
+            var username = principal.Identity.Name; // Assurez-vous que votre token inclut le nom d'utilisateur correctement
+
+            var user = await userManager.FindByNameAsync(username);
+            if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return BadRequest("Invalid token information");
+            }
+
+            var roles = await userManager.GetRolesAsync(user); // Attendez simplement la tâche et obtenez les rôles
+
+            var (newJwtToken, newRefreshToken) = tokenRepository.CreateJwtToken(user, roles.ToList());
+            var response = new LoginResponsetDTO
+            {
+                Email = user.Email,
+                Token = newJwtToken,
+                RefreshToken = newRefreshToken, // Utilisez le nouveau refresh token ici
+                Roles = roles.ToList() // Vous pouvez maintenant convertir les rôles en liste
+            };
+
+            return Ok(response);
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507140451_RefreshToken")]
+    partial class RefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,9 +121,10 @@ namespace Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RefreshToken")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
@@ -150,19 +154,19 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e17fee8d-e420-4cfd-869c-89b103d85230",
+                            ConcurrencyStamp = "656e99fb-9080-4e0f-8882-8ac94a126ed7",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOXSYhWfDXKhSxcZz/kM8J2GF3axCwMWx4hZmh0/t1fyqSeWhNnwBmo/B4inkaj5cg==",
+                            NormalizedUserName = "ADMIN@EPHEC.BE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGR+jItrxSPbUMq3E2E5EDS5jD5ZgVUWq8k2NFst/+AWrhJJLs4uZ9G4E9rLaK/YVg==",
                             PhoneNumberConfirmed = false,
-                            RefreshToken = "5e9b170d-3c49-46e8-ac0e-6048e3547158",
-                            RefreshTokenExpiryTime = new DateTime(2024, 5, 8, 18, 20, 59, 104, DateTimeKind.Local).AddTicks(455),
-                            SecurityStamp = "76d77a38-f961-4299-93ec-15655fd91399",
+                            RefreshToken = "adb9414d-882f-407f-83a5-e2d84de9967b",
+                            RefreshTokenExpiryTime = new DateTime(2024, 5, 8, 16, 4, 50, 783, DateTimeKind.Local).AddTicks(4383),
+                            SecurityStamp = "0cb00e2f-766a-402b-b2c4-9d163e9f5190",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@ephec.be"
                         });
                 });
 

@@ -23,7 +23,7 @@ namespace API.Controllers
         #region Cours
         // GET: http://localhost:5137/api/Course
         [HttpGet("GetAllCourses")]
-        //[Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin,Student,Instructor")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCourses()
         {
             try
@@ -39,6 +39,7 @@ namespace API.Controllers
 
         // GET: http://localhost:5137/api/Course/{courseId}
         [HttpGet("GetCourseById/{courseIdDTO}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
 
         public async Task<ActionResult<CourseDTO>> GetCourseById([FromRoute]int courseIdDTO)
         {
@@ -60,7 +61,7 @@ namespace API.Controllers
         // Mais je l'ai remplacé par la ligne de code suivante car elle posait des soucis 
         // POST: http://localhost:5137/api/Course
         [HttpPost("CreateCourse")]
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ActionResult<CourseCreateDTO>> CreateCourse([FromBody] CourseCreateDTO createDTO)
         {
             try
@@ -83,7 +84,7 @@ namespace API.Controllers
         [HttpPut("UpdateCourse/{courseId}")]
 
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student")]
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateCourse([FromRoute]int courseId,[FromBody] CourseUpdateDTO updateDTO)
         {
             try
@@ -108,6 +109,7 @@ namespace API.Controllers
 
         // DELETE: http://localhost:5137/api/Course/{courseId}
         [HttpDelete("DeleteCourse/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         //[Authorize(Roles = "Admin,Instructor")]
         public async Task<IActionResult> DeleteCourse([FromRoute]int courseId)
         {
@@ -131,6 +133,7 @@ namespace API.Controllers
         #endregion Cours
         #region Students
         [HttpGet("GetStudentsByCourse/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetStudentsByCourse(int courseId)
         {
             try
@@ -152,6 +155,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetInstructorsByCourse/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetInstructorBycourse(int courseId)
         {
             try
@@ -168,6 +172,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetCoursesByStudent/{studentId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByStudent(int studentId)
         {
             try
@@ -181,6 +186,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetCoursesByInstructorName/{instructorName}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByInstructorName(string instructorName)
         {
             try
@@ -202,6 +208,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("AddStudentToCourse/{courseId}/{studentId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> AddStudentToCourse(int courseId, int studentId)
         {
             var result = await _courseService.AddStudentToCourse(studentId, courseId);
@@ -214,6 +221,7 @@ namespace API.Controllers
 
         }
         [HttpPost("AddInstructorToCourse/{courseId}/{instructorId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> AddInstructorToCourse(int courseId,int instructorId)
         {
             var result = await _courseService.AddInstructorToCourse(instructorId, courseId);
@@ -225,6 +233,7 @@ namespace API.Controllers
             return Ok(new {message = $"Instructor with Id = {instructorId} added to course with Id = {courseId}" });
         }
         [HttpDelete("RemoveStudentFromCourse/{courseId}/students/{studentId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> RemoveStudentFromCourse(int courseId, int studentId)
         {
             var result = await _courseService.RemoveStudentFromCourse(studentId, courseId);
@@ -236,6 +245,7 @@ namespace API.Controllers
             return Ok(new {message = $"Student with Id = {studentId} removed from course with Id = {courseId}" });
         }
         [HttpDelete("RemoveInstructorFromCourse/{courseId}/{instructorId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ActionResult> RemoveInstructorFromCourse(int instructorId, int courseId)
         {
             var result = await _courseService.RemoveInstructorFromCourse(instructorId, courseId);
@@ -244,6 +254,7 @@ namespace API.Controllers
         }
         #endregion Students
         [HttpPut("UpdateCourseInstructor/{courseId}/{instructorName}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateCourseInstructor(int courseId, string instructorName)
         {
             try
@@ -262,6 +273,7 @@ namespace API.Controllers
             }
         }
         [HttpDelete("RemoveAllStudentsFromCourse")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> RemoveAllStudentsFromCourse(int courseId)
         {
             try
@@ -278,28 +290,5 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        /*[HttpPost("{courseId}/instructors/{instructorId}")]
-        public async Task<IActionResult> AddInstructorToCourse(int courseId, int instructorId)
-        {
-            var result = await _courseRepository.AddInstructorToCourse(instructorId, courseId);
-            if (!result)
-            {
-                return BadRequest("Could not add instructor to course");
-            }
-
-            return Ok($"Instructor with Id = {instructorId} added to course with Id = {courseId}");
-        }
-        [HttpDelete("{courseId}/instructors/{instructorId}")]
-        public async Task<IActionResult> RemoveInstructorFromCourse(int courseId, int instructorId)
-        {
-            var result = await _courseRepository.RemoveInstructorFromCourse(instructorId, courseId);
-            if (!result)
-            {
-                return BadRequest("Could not remove instructor from course");
-            }
-
-            return Ok($"Instructor with Id = {instructorId} removed from course with Id = {courseId}");
-        }*/
-
     }
 }

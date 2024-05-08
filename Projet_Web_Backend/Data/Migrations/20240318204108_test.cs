@@ -213,7 +213,7 @@ namespace Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "8ee51228-a0ad-44d6-9544-2d0d195c0bde", "admin@ephec.be", false, false, null, "ADMIN@EPHEC.BE", "ADMIN@EPHEC.BE", "AQAAAAIAAYagAAAAEPfeDDSltfLLGWvGAjgrKB6Mk7LF6e4q9pI5mA9vZhY+fMcpPruWwKeKBjxOXkwU8A==", null, false, null, false, "admin@ephec.be" });
+                values: new object[] { 1, 0, "8ee51228-a0ad-44d6-9544-2d0d195c0bde", "admin@ephec.be", false, false, null, "ADMIN@EPHEC.BE", "ADMIN", "AQAAAAIAAYagAAAAEPfeDDSltfLLGWvGAjgrKB6Mk7LF6e4q9pI5mA9vZhY+fMcpPruWwKeKBjxOXkwU8A==", null, false, null, false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Course",

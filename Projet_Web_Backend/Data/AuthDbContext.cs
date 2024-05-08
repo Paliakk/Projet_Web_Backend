@@ -60,10 +60,13 @@ namespace Data
             var admin = new ApplicationUser()
             {
                 Id = adminUserId,
-                UserName = "admin@ephec.be",
+                UserName = "admin",
                 Email = "admin@ephec.be",
                 NormalizedEmail = "admin@ephec.be".ToUpper(),
-                NormalizedUserName = "admin@ephec.be".ToUpper()
+                NormalizedUserName = "admin".ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                RefreshToken = Guid.NewGuid().ToString(), // Generate a dummy refresh token
+                RefreshTokenExpiryTime = DateTime.Now.AddDays(1) // Set expiry time
             };
 
             admin.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(admin, "Admin123");

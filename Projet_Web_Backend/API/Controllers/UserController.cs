@@ -22,7 +22,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetAllUsers")]
-        
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsersAsync()
         {
             try
@@ -37,6 +38,7 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("GetUserById{userID:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin,Student,Instructor")]
         public async Task<ActionResult<ApplicationUser>> GetUserById([FromRoute] int userID)
         {
             try
@@ -54,7 +56,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("AddUser")]
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<IdentityResult>> CreateUser([FromBody] UserAddDTO user)
         {
             try
@@ -68,11 +70,12 @@ namespace API.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error adding the course");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating user");
             }
         }
         [HttpDelete]
         [Route("DeleteUser{userID:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] int userID)
         {
             try
@@ -93,6 +96,7 @@ namespace API.Controllers
             }
         }
         [HttpPut("Update/{id:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDTO userUpdateDTO)
         {
             try
@@ -110,6 +114,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetByUsername/{username}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<UserDTO>> GetByUsername([FromRoute] string username)
         {
             try
@@ -127,6 +132,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetUserRoles{username}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<ActionResult<string>> GetUserRoles([FromRoute] string username)
         {
             try
@@ -145,6 +151,7 @@ namespace API.Controllers
 
         }
         [HttpGet("GetAllStudents")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         //[Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllStudents()
         {
@@ -165,6 +172,7 @@ namespace API.Controllers
 
         }
         [HttpGet("GetAllInstructors")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllInstructors()
         {
             try
@@ -184,6 +192,7 @@ namespace API.Controllers
 
         }
         [HttpPost("SetUserRole")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> SetUserRole(int userId, string newRoleName)
         {
             var success = await _userService.SetUserRoleAsync(userId, newRoleName);
