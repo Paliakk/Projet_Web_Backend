@@ -11,7 +11,7 @@ namespace Data.Interfaces
 {
     public interface ITokenRepository
     {
-        (string Token,string RefreshToken) CreateJwtToken(ApplicationUser user,List<string> roles);
+        (string Token, string RefreshToken) CreateJwtToken(ApplicationUser user, List<string> roles);
         string GenerateRefreshToken();
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }

@@ -102,6 +102,11 @@ namespace Business.Repositories
             var courses = await _courseRepository.GetCoursesByInstructorName(instructorName);
             return _mapper.Map<IEnumerable<CourseDTO>>(courses);
         }
+        public async Task<IEnumerable<CourseDTO>> GetCoursesByInstructorId(int instructorId)
+        {
+            var courses = await _courseRepository.GetCoursesByInstructorId(instructorId);
+            return _mapper.Map<IEnumerable<CourseDTO>>(courses);
+        }
         public async Task<bool> UpdateCourseInstructor(int courseId, string instructorName)
         {
             return await _courseRepository.UpdateCourseInstructor(courseId, instructorName);

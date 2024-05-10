@@ -15,7 +15,7 @@ namespace API.Controllers
             _studentAssignmentService = studentAssignmentService;
         }
         [HttpGet("GetAllStudentAssignments")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
+        [Authorize]
         public async Task<IActionResult> GetAllStudentAssignments()
         {
             var studentAssignments = await _studentAssignmentService.GetAllAsync();

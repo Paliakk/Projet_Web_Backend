@@ -207,6 +207,20 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+        [HttpGet("GetCoursesByInstructorId/{instructorId}")]
+        [Authorize(AuthenticationSchemes="Bearer",Roles = "Admin,Instructor")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesByInstructorId(int instructorId)
+        {
+            try
+            {
+                IEnumerable<CourseDTO> courses = await _courseService.GetCoursesByInstructorId(instructorId);
+                return Ok(courses);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+        }
         [HttpPost("AddStudentToCourse/{courseId}/{studentId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> AddStudentToCourse(int courseId, int studentId)

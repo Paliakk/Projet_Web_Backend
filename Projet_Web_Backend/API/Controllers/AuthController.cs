@@ -13,7 +13,7 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITokenRepository tokenRepository;
-        public AuthController(UserManager<ApplicationUser> userManager,ITokenRepository tokenRepository)
+        public AuthController(UserManager<ApplicationUser> userManager, ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
             this.tokenRepository = tokenRepository;
@@ -41,7 +41,7 @@ namespace API.Controllers
             if (identityUser is not null)
             {
                 //Verif mdp
-                var checkPasswordResult =  await userManager.CheckPasswordAsync(identityUser, request.Password);
+                var checkPasswordResult = await userManager.CheckPasswordAsync(identityUser, request.Password);
 
                 if (checkPasswordResult)
                 {
@@ -59,7 +59,7 @@ namespace API.Controllers
                     return Ok(response);
                 }
             }
-            ModelState.AddModelError("","Email or Password incorrect");
+            ModelState.AddModelError("", "Email or Password incorrect");
 
             return ValidationProblem(ModelState);
         }
@@ -67,7 +67,7 @@ namespace API.Controllers
 
         // POST : {apibaseurl}/api/auth/register
         [HttpPost]
-        [Route ("register")]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO request)
         {
             //Create IdentityUser object 
@@ -77,14 +77,14 @@ namespace API.Controllers
                 Email = request.Email?.Trim()
             };
             // Create User
-            var identityResult =  await userManager.CreateAsync(user,request.Password);
+            var identityResult = await userManager.CreateAsync(user, request.Password);
 
             if (identityResult.Succeeded)
             {
                 // Add role to user (student)
                 identityResult = await userManager.AddToRoleAsync(user, "student");
 
-                if(identityResult.Succeeded)
+                if (identityResult.Succeeded)
                 {
                     return Ok();
                 }
@@ -101,9 +101,9 @@ namespace API.Controllers
             }
             else
             {
-                if(identityResult.Errors.Any())
+                if (identityResult.Errors.Any())
                 {
-                    foreach(var error in identityResult.Errors)
+                    foreach (var error in identityResult.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }

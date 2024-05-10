@@ -193,7 +193,7 @@ namespace Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Assignment");
+                    b.ToTable("Assignment", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Course", b =>
@@ -216,7 +216,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Course", (string)null);
 
                     b.HasData(
                         new
@@ -297,7 +297,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CourseInstructor");
+                    b.ToTable("CourseInstructor", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.CourseStudent", b =>
@@ -328,7 +328,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CourseStudent");
+                    b.ToTable("CourseStudent", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.StudentAssignment", b =>
@@ -361,7 +361,7 @@ namespace Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentAssignment");
+                    b.ToTable("StudentAssignment", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

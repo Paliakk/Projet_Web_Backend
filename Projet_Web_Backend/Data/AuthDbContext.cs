@@ -65,8 +65,6 @@ namespace Data
                 NormalizedEmail = "admin@ephec.be".ToUpper(),
                 NormalizedUserName = "admin".ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                RefreshToken = Guid.NewGuid().ToString(), // Generate a dummy refresh token
-                RefreshTokenExpiryTime = DateTime.Now.AddDays(1) // Set expiry time
             };
 
             admin.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(admin, "Admin123");

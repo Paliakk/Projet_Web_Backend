@@ -23,6 +23,7 @@ namespace Business.Interfaces
         Task<IEnumerable<CourseDTO>> GetCoursesByStudentId(int studentId);
         Task<bool> AddInstructorToCourse(int instructorId, int courseId);
         Task<IEnumerable<CourseDTO>> GetCoursesByInstructorName(string instructorName);
+        Task<IEnumerable<CourseDTO>> GetCoursesByInstructorId(int instructorId);
         Task<bool> UpdateCourseInstructor(int courseId, string instructorName);
         Task<bool> RemoveAllStudentsFromCourse(int courseId);
 

@@ -18,9 +18,9 @@ public interface ICourseRepository
     Task<bool> RemoveInstructorFromCourse(int instructorId, int courseId);
     Task<bool> AddInstructorToCourse(int instructorId, int courseId);
     Task<IEnumerable<Course?>> GetCoursesByInstructorName(string instructorName);
+    Task<IEnumerable<Course>> GetCoursesByInstructorId(int instructorId);
     Task<bool> UpdateCourseInstructor(int courseId, string instructorName);
     Task<bool> RemoveAllStudentsFromCourse(int courseId);
-    //Task<bool> AddInstructorToCourse(int instructorId, int courseId);
-    //Task<bool> RemoveInstructorFromCourse(int instructorId, int courseId);
+
     
 }
