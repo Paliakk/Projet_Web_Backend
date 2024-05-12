@@ -15,7 +15,7 @@ namespace API.Controllers
             _studentAssignmentService = studentAssignmentService;
         }
         [HttpGet("GetAllStudentAssignments")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<IActionResult> GetAllStudentAssignments()
         {
             var studentAssignments = await _studentAssignmentService.GetAllAsync();
@@ -98,6 +98,17 @@ namespace API.Controllers
             var result = await _studentAssignmentService.LateAssignment(studentAssignmentId);
             return Ok(result);
         }
-
+        [HttpGet("GetAverageGradeByStudentId/{studentId}")]
+        public async Task<IActionResult> GetAverageGradeByStudentId(int studentId)
+        {
+            var result = await _studentAssignmentService.GetAverageGradeByStudentId(studentId);
+            return Ok(result);
+        }
+        [HttpGet("GetAverageGradeByStudentByCourseId/{studentId}/{courseId}")]
+        public async Task<IActionResult> GetAverageGradeByStudentByCourseId(int studentId,int courseId)
+        {
+            var result = await _studentAssignmentService.GetAverageGradeByStudentByCourseId(studentId,courseId);
+            return Ok(result);
+        }
     }
 }

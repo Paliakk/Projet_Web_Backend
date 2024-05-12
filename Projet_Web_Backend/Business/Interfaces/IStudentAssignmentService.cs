@@ -22,5 +22,7 @@ namespace Business.Interfaces
         Task<IEnumerable<StudentAssignmentDTO>> GetAllWithCourseNameAsync(int studentId);
         Task<IEnumerable<StudentAssignmentDetailedDTO>> GetDetailedAssignmentsByStudentId(int studentId);
         Task<bool> LateAssignment(int studentAssignmentId);
+        Task<decimal> GetAverageGradeByStudentId(int studentId);
+        Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId);
     }
 }

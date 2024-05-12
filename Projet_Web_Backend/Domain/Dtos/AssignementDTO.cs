@@ -84,7 +84,7 @@ namespace Domain.Dtos
         public string studentName { get; set; }
         public int AssignmentId { get; set; }
         public string assignmentTitle { get; set; }
-        public int? Grade { get; set; }
+        public decimal? Grade { get; set; }
         public AssignmentStatus Status { get; set; } // Default status set to Active // Active, Completed, Cancelled
         public string FilePath { get; set; }
     }
@@ -123,8 +123,14 @@ namespace Domain.Dtos
         public int courseId { get; set; }
         public string CourseName { get; set; }
         public decimal? Grade { get; set; }
+        public decimal? AverageGrade { get; set; }
         public AssignmentStatus Status { get; set; }
         public string FilePath { get; set; }
+    }
+    public class CourseWithAssignmentsDTO
+    {
+        public IEnumerable<CourseDTO> Courses { get; set; }
+        public IEnumerable<AssignementReadDTO> Assignments { get; set; }
     }
     public class CustomDateTimeConverter : JsonConverter<DateTime?>
     {

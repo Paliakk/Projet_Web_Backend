@@ -114,6 +114,20 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data from the database");
             }
         }
+        [HttpGet("GetAssignementsByCourseByInstructorId/{instructorId}")]
+
+        public async Task<ActionResult<AssignementReadDTO>> GetAssignementsByCourseByInstructorId(int instructorId)
+        {
+            try
+            {
+                var assignement = await _assignementService.GetAssignmentsByCourseByInstructorId(instructorId);
+                return Ok(assignement);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+            }
+        }
 
     }
 }

@@ -222,5 +222,13 @@ namespace Business.Repositories
             return detailedAssignments;
 
         }
+        public async Task<decimal> GetAverageGradeByStudentId(int studentId)
+        {
+            return await _studentAssignmentRrepository.GetAverageGradeByStudentId(studentId);
+        }
+        public async Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId)
+        {
+            return await _studentAssignmentRrepository.GetAverageGradeByStudentByCourseId(studentId, courseId);
+        }
     }
 }

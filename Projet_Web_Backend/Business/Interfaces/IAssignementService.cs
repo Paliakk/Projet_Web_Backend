@@ -17,5 +17,6 @@ namespace Business.Interfaces
         Task<Assignment> AddAsync(AssignementCreateDTO assignement);
         Task UpdateAsync(AssignementUpdateDTO assignement);
         Task<AssignementReadDTO> DeleteAsync(int assignementId);
+        Task<CourseWithAssignmentsDTO> GetAssignmentsByCourseByInstructorId(int instructorId);
     }
 }

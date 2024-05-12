@@ -19,5 +19,7 @@ namespace Data.Interfaces
         Task<bool> UpdateAsync(StudentAssignment studentAssignment);
         Task<bool> DeleteAsync(int id);
         Task<bool> LateAssignment(int studentAssignmentId);
+        Task<decimal> GetAverageGradeByStudentId(int studentId);
+        Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId);
     }
 }

@@ -222,7 +222,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("AddStudentToCourse/{courseId}/{studentId}")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Student,Instructor")]
         public async Task<IActionResult> AddStudentToCourse(int courseId, int studentId)
         {
             var result = await _courseService.AddStudentToCourse(studentId, courseId);

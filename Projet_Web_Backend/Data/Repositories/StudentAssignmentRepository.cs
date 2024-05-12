@@ -150,5 +150,37 @@ namespace Data.Repositories
             }
             return false;
         }
+        public async Task<decimal> GetAverageGradeByStudentId(int studentId)
+        {
+            decimal totalGrade = _context.StudentAssignment.Where(StudentAssignment => StudentAssignment.StudentId == studentId && StudentAssignment.Grade != null)
+                .Sum(StudentAssignment => StudentAssignment.Grade ?? 0);
+            int totalAssignments = _context.StudentAssignment.Where(StudentAssignment => StudentAssignment.StudentId == studentId && StudentAssignment.Grade != null).Count();
+            decimal avg = 0;
+            if (totalAssignments != 0)
+            {
+                avg = (decimal)totalGrade / totalAssignments;
+            }
+            if(avg == 0)
+            {
+                return 0;
+            }
+            return avg;
+        }
+        public async Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId)
+        {
+            decimal totalGrade = _context.StudentAssignment.Where(StudentAssignment => StudentAssignment.StudentId == studentId && StudentAssignment.Grade != null && StudentAssignment.Assignment.CourseId == courseId)
+                .Sum(StudentAssignment => StudentAssignment.Grade ?? 0);
+            int totalAssignments = _context.StudentAssignment.Where(StudentAssignment => StudentAssignment.StudentId == studentId && StudentAssignment.Grade != null && StudentAssignment.Assignment.CourseId == courseId).Count();
+            decimal avg = 0;
+            if (totalAssignments != 0)
+            {
+                avg = (decimal)totalGrade / totalAssignments;
+            }
+            if (avg == 0)
+            {
+                return 0;
+            }
+            return avg;
+        }
     }
 }

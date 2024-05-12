@@ -89,5 +89,21 @@ namespace Business.Repositories
                 await _assignementRepository.UpdateAsync(assignementToUpdate);
             }
         }
+        public async Task<CourseWithAssignmentsDTO> GetAssignmentsByCourseByInstructorId(int instructorId)
+        {
+            var courses = await _courseRepository.GetCoursesByInstructorId(instructorId);
+
+            var assignments = new List<AssignementReadDTO>();
+            foreach(var course in courses)
+            {
+                var courseAssignments = await GetByCourseIdAsync(course.Id);
+                assignments.AddRange(courseAssignments);
+            }
+            return new CourseWithAssignmentsDTO
+            {
+                Courses = _mapper.Map<IEnumerable<CourseDTO>>(courses),
+                Assignments = assignments
+            };
+        }
     }
 }
