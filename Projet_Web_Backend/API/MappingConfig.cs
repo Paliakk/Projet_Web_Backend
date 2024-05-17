@@ -17,6 +17,7 @@ public class MappingConfig : Profile
         CreateMap<Assignment, AssignementCreateDTO>().ReverseMap();
         CreateMap<Assignment, AssignementUpdateDTO>().ReverseMap();
         CreateMap<Assignment, AssignementDetailDTO>().ReverseMap();
+        CreateMap<Assignment, AssignementReadWithCourseDTO>().ReverseMap();
         CreateMap<StudentAssignment, StudentAssignmentDTO>().ReverseMap();
         CreateMap<StudentAssignment, StudentAssignmentCreateDTO>().ReverseMap();
         CreateMap<StudentAssignment, StudentAssignmentUpdateDTO>().ReverseMap();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20240422145339_ouioui")]
-    partial class ouioui
+    [Migration("20240517163432_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,6 +120,12 @@ namespace Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -147,16 +153,17 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2653f2a6-20a5-4edd-84a7-c945ce404c1f",
+                            ConcurrencyStamp = "7d3d0a31-c0f3-459e-8519-438348508fbe",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
-                            NormalizedUserName = "ADMIN@EPHEC.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPLFPE5U5SKVHxmpYTgQZ7NrF184NwNxJ5WLrORcISh9a8RBo16G0xX4kl+vpYp+Nw==",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMfCpg+PWzFhhAb/wy4FK5XtHhVSYUCndAgnDoNLe0S1UXq98P+wBDt0gu4Htmj4Qw==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "07d20fab-48bf-43a8-ba87-99876e84dec2",
                             TwoFactorEnabled = false,
-                            UserName = "admin@ephec.be"
+                            UserName = "admin"
                         });
                 });
 
@@ -170,6 +177,12 @@ namespace Data.Migrations
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Deadline")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -205,56 +218,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Web Development is fun!",
-                            Name = "Web Development"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Java Programming is fun! Fun! Fun! ",
-                            Name = "Java Programming"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "C# Programming is fun too!",
-                            Name = "C# Programming"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Learn about data structures.",
-                            Name = "Data Structures"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Study the fundamentals of algorithms.",
-                            Name = "Algorithms"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Dive into computer networking principles.",
-                            Name = "Computer Networks"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Explore how operating systems work.",
-                            Name = "Operating Systems"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Understand database management systems.",
-                            Name = "Database Systems"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
@@ -330,8 +293,15 @@ namespace Data.Migrations
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Grade")
-                        .HasColumnType("int");
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Grade")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");

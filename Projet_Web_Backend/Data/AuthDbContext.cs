@@ -11,9 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-    public class AuthDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
+    public class AuthDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+        {
+        }
+        public AuthDbContext()
         {
         }
         public DbSet<Course> Course { get; set; }
@@ -73,7 +76,7 @@ namespace Data
 
             //Give Roles to Admin
             var adminRoles = new List<IdentityUserRole<int>>()
-             {
+            {
                  new()
                  {
                      UserId = adminUserId,
@@ -82,17 +85,6 @@ namespace Data
             };
 
             builder.Entity<IdentityUserRole<int>>().HasData(adminRoles);
-
-            builder.Entity<Course>().HasData(
-            new Course { Id = 1, Name = "Web Development", Description = "Web Development is fun!" },
-            new Course { Id = 2, Name = "Java Programming", Description = "Java Programming is fun! Fun! Fun! " },
-            new Course { Id = 3, Name = "C# Programming", Description = "C# Programming is fun too!" },
-            new Course { Id = 4, Name = "Data Structures", Description = "Learn about data structures." },
-            new Course { Id = 5, Name = "Algorithms", Description = "Study the fundamentals of algorithms." },
-            new Course { Id = 6, Name = "Computer Networks", Description = "Dive into computer networking principles." },
-            new Course { Id = 7, Name = "Operating Systems", Description = "Explore how operating systems work." },
-            new Course { Id = 8, Name = "Database Systems", Description = "Understand database management systems." }
-);
 
         }
     }

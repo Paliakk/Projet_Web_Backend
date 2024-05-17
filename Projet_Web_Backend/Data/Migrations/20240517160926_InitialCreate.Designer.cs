@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20240423142537_majDevoirEtNote")]
-    partial class majDevoirEtNote
+    [Migration("20240517160926_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,6 +120,12 @@ namespace Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -147,16 +153,17 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "66d1633b-b01b-461a-a3f9-1ffd2bc61f31",
+                            ConcurrencyStamp = "73ddd69f-fc37-4a09-ab77-086438b0b0ba",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
-                            NormalizedUserName = "ADMIN@EPHEC.BE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFJqIuiNBKizemG/GA4JzcGa85vcRwQDj47tXi+xlJMdgciT7wUwH2oTjEq2zhOevA==",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFD/oxjpmnhi8VeeqB4pThmuewy+qVQ573PEAnCe0UuyFX+RL7cKr/5xfqeCkx64BA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "71392e80-702c-4e5f-ad9f-2a5aae1ebcf0",
                             TwoFactorEnabled = false,
-                            UserName = "admin@ephec.be"
+                            UserName = "admin"
                         });
                 });
 
@@ -211,56 +218,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Web Development is fun!",
-                            Name = "Web Development"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Java Programming is fun! Fun! Fun! ",
-                            Name = "Java Programming"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "C# Programming is fun too!",
-                            Name = "C# Programming"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Learn about data structures.",
-                            Name = "Data Structures"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Study the fundamentals of algorithms.",
-                            Name = "Algorithms"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Dive into computer networking principles.",
-                            Name = "Computer Networks"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Explore how operating systems work.",
-                            Name = "Operating Systems"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Understand database management systems.",
-                            Name = "Database Systems"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
@@ -335,6 +292,9 @@ namespace Data.Migrations
 
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Grade")
                         .HasColumnType("decimal(18,2)");
