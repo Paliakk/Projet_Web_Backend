@@ -18,6 +18,15 @@ namespace Domain.Dtos
         public string? Description { get; set; }
         public DateTime? Deadline { get; set; }
     }
+    public class AssignementReadWithCourseDTO
+    {
+        public int Id { get; set; }
+        public int CourseId { get; set; }
+        public string? CourseName { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public DateTime? Deadline { get; set; }
+    }
     public class AssignementCreateDTO
     {
         public int CourseId { get; set; }

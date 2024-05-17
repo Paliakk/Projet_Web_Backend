@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,8 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -175,13 +177,66 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Assignment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assignment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assignment_Course_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Course",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseInstructor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseID = table.Column<int>(type: "int", nullable: false),
+                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseInstructor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseInstructor_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseInstructor_Course_CourseID",
+                        column: x => x.CourseID,
+                        principalTable: "Course",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CourseStudent",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
-                    CourseID = table.Column<int>(type: "int", nullable: false)
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseID = table.Column<int>(type: "int", nullable: false),
+                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,6 +255,35 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "StudentAssignment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    AssignmentId = table.Column<int>(type: "int", nullable: false),
+                    Grade = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentAssignment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudentAssignment_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentAssignment_Assignment_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -212,23 +296,8 @@ namespace Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "8ee51228-a0ad-44d6-9544-2d0d195c0bde", "admin@ephec.be", false, false, null, "ADMIN@EPHEC.BE", "ADMIN", "AQAAAAIAAYagAAAAEPfeDDSltfLLGWvGAjgrKB6Mk7LF6e4q9pI5mA9vZhY+fMcpPruWwKeKBjxOXkwU8A==", null, false, null, false, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "Course",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Web Development is fun!", "Web Development" },
-                    { 2, "Java Programming is fun! Fun! Fun! ", "Java Programming" },
-                    { 3, "C# Programming is fun too!", "C# Programming" },
-                    { 4, "Learn about data structures.", "Data Structures" },
-                    { 5, "Study the fundamentals of algorithms.", "Algorithms" },
-                    { 6, "Dive into computer networking principles.", "Computer Networks" },
-                    { 7, "Explore how operating systems work.", "Operating Systems" },
-                    { 8, "Understand database management systems.", "Database Systems" }
-                });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1, 0, "73ddd69f-fc37-4a09-ab77-086438b0b0ba", "admin@ephec.be", false, false, null, "ADMIN@EPHEC.BE", "ADMIN", "AQAAAAIAAYagAAAAEFD/oxjpmnhi8VeeqB4pThmuewy+qVQ573PEAnCe0UuyFX+RL7cKr/5xfqeCkx64BA==", null, false, null, null, "71392e80-702c-4e5f-ad9f-2a5aae1ebcf0", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -275,6 +344,21 @@ namespace Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assignment_CourseId",
+                table: "Assignment",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseInstructor_CourseID",
+                table: "CourseInstructor",
+                column: "CourseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseInstructor_UserID",
+                table: "CourseInstructor",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CourseStudent_CourseID",
                 table: "CourseStudent",
                 column: "CourseID");
@@ -283,6 +367,16 @@ namespace Data.Migrations
                 name: "IX_CourseStudent_UserID",
                 table: "CourseStudent",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentAssignment_AssignmentId",
+                table: "StudentAssignment",
+                column: "AssignmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentAssignment_StudentId",
+                table: "StudentAssignment",
+                column: "StudentId");
         }
 
         /// <inheritdoc />
@@ -304,13 +398,22 @@ namespace Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CourseInstructor");
+
+            migrationBuilder.DropTable(
                 name: "CourseStudent");
+
+            migrationBuilder.DropTable(
+                name: "StudentAssignment");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Assignment");
 
             migrationBuilder.DropTable(
                 name: "Course");

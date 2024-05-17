@@ -12,6 +12,7 @@ namespace Business.Interfaces
     {
         Task<AssignementReadDTO> GetByIdAsync(int id);
         Task<IEnumerable<AssignementReadDTO>> GetAllAsync();
+        Task<IEnumerable<AssignementReadWithCourseDTO>> GetAllWithCourse();
         Task<IEnumerable<AssignementReadDTO>> GetByCourseIdAsync(int courseId);
         Task<AssignementReadDTO> SearchByTitleAsync(string title);
         Task<Assignment> AddAsync(AssignementCreateDTO assignement);

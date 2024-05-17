@@ -105,5 +105,26 @@ namespace Business.Repositories
                 Assignments = assignments
             };
         }
+        public async Task<IEnumerable<AssignementReadWithCourseDTO>> GetAllWithCourse()
+        {
+            var assignements = await _assignementRepository.GetAllAsync();
+            var assignementsWithCourse = new List<AssignementReadWithCourseDTO>();
+            foreach(var assignement in assignements)
+            {
+                 var withCourse = _mapper.Map<AssignementReadWithCourseDTO>(assignement);
+                var course = await _courseRepository.GetCourseById(assignement.CourseId);
+                if(course != null)
+                {
+                    withCourse.Id = assignement.Id;
+                    withCourse.CourseId = assignement.CourseId;
+                    withCourse.CourseName = course.Name;
+                    withCourse.Title = assignement.Title;
+                    withCourse.Description = assignement.Description;
+                    withCourse.Deadline = assignement.Deadline;
+                }
+                assignementsWithCourse.Add(withCourse);
+            }
+            return assignementsWithCourse;
+        }
     }
 }

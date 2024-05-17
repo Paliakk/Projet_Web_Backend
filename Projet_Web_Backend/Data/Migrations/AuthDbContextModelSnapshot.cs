@@ -150,19 +150,177 @@ namespace Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e17fee8d-e420-4cfd-869c-89b103d85230",
+                            ConcurrencyStamp = "bfa8aac1-64d4-48d0-836c-4585f0d64e02",
                             Email = "admin@ephec.be",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EPHEC.BE",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOXSYhWfDXKhSxcZz/kM8J2GF3axCwMWx4hZmh0/t1fyqSeWhNnwBmo/B4inkaj5cg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJtfVviFWl3yWRuWUl7Lmjc+QBMk8OjpseW0ukSJiO1sG9ka2M+Po8tOTmr8Pi3asQ==",
                             PhoneNumberConfirmed = false,
-                            RefreshToken = "5e9b170d-3c49-46e8-ac0e-6048e3547158",
-                            RefreshTokenExpiryTime = new DateTime(2024, 5, 8, 18, 20, 59, 104, DateTimeKind.Local).AddTicks(455),
-                            SecurityStamp = "76d77a38-f961-4299-93ec-15655fd91399",
+                            SecurityStamp = "90ac614e-343e-4e4b-b287-5e79aacac56f",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "55455058-9515-47fc-93ae-0d53ee557a8b",
+                            Email = "john.doe@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JOHN.DOE@EPHEC.BE",
+                            NormalizedUserName = "JOHNDOE",
+                            PasswordHash = "AQAAAAIAAYagAAAAECUuOmYTeFI0v8bDVsqQ022crcPnz9QmtvKxrHMPEIdkeJNOqBtPRodydbUoPYKNyw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "cbbff709-0b34-4c5f-b66f-4a83b13c5f47",
+                            TwoFactorEnabled = false,
+                            UserName = "johndoe"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "80387357-6673-4660-a8de-09e88b0c1f71",
+                            Email = "jane.doe@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JANE.DOE@EPHEC.BE",
+                            NormalizedUserName = "JANEDOE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMuzpy4L1ik5lvPkp9F7j1YJ1HdJyaX9DobIw5ErUULB2iDKDK7cfmLGSK2V1jIoQg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e075ea42-2efb-4f0d-ab6e-70527c66638c",
+                            TwoFactorEnabled = false,
+                            UserName = "janedoe"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "99fa0ce8-1e88-44a6-804c-1586c6242051",
+                            Email = "robert.smith@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROBERT.SMITH@EPHEC.BE",
+                            NormalizedUserName = "ROBERTSMITH",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBmXzfpL6d0qCvvm3R4vvnfYu5ODpy9juDBBcONefJKKIde83NaTwHU9XaTDvYdxdA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fb95450a-7259-4d3d-baf7-f3632aa8cab3",
+                            TwoFactorEnabled = false,
+                            UserName = "robertsmith"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "296f3f7e-deab-4629-a0d1-1e3171b13995",
+                            Email = "linda.johnson@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "LINDA.JOHNSON@EPHEC.BE",
+                            NormalizedUserName = "LINDAJOHNSON",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM/48KBDdqESpHdgbuNPsINufFcciwpDraw5BHMNwpwg07D4m7JR0rBioLwwsLWrjQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1c389f62-f9cf-41c8-9ce5-916a39600db2",
+                            TwoFactorEnabled = false,
+                            UserName = "lindajohnson"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "160c3256-94ab-4870-876a-d0626d582b11",
+                            Email = "michael.brown@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MICHAEL.BROWN@EPHEC.BE",
+                            NormalizedUserName = "MICHAELBROWN",
+                            PasswordHash = "AQAAAAIAAYagAAAAED4z7m+KjpgwlxL7Xo61ZjuiLIRVBF+h+j/Nt5PaixgJH9EbAp2vp5heAJZT1URBCg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c63b80eb-e917-4b2f-aa4f-3e75d3795df6",
+                            TwoFactorEnabled = false,
+                            UserName = "michaelbrown"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ba8df7f3-556e-4121-868d-5bd8ae23b4c1",
+                            Email = "alice.williams@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ALICE.WILLIAMS@EPHEC.BE",
+                            NormalizedUserName = "ALICEWILLIAMS",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPEQ55fScO11CNWhJYxwzXds08tZoRodvXaQgaw9oyhxRVuJ7rgCAZlzru15hmA6PQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ebc3c858-6e6e-4e7c-b93e-26349d5c851a",
+                            TwoFactorEnabled = false,
+                            UserName = "alicewilliams"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "13591acf-b463-48ec-8978-cbb92616a51a",
+                            Email = "james.jones@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JAMES.JONES@EPHEC.BE",
+                            NormalizedUserName = "JAMESJONES",
+                            PasswordHash = "AQAAAAIAAYagAAAAECaj6YGkdIhqfmKYns6HVHIykHAtRJZyll24I/eIX6dIqf11rFBhkcBwNMTTOrLvuQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0ef31cf3-d857-4549-8806-ee9c62bffde8",
+                            TwoFactorEnabled = false,
+                            UserName = "jamesjones"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1c864518-f97d-4c23-ae79-039e6f881e54",
+                            Email = "emily.davis@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMILY.DAVIS@EPHEC.BE",
+                            NormalizedUserName = "EMILYDAVIS",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBpwWJUECkY9i6+AQNn8Cc6KeeUebmHnwzqETjcqd534uPuZbSHYEjsk+Cl2jGeXdg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f1065f30-c1f7-48cc-88a1-badbc9c3ae3f",
+                            TwoFactorEnabled = false,
+                            UserName = "emilydavis"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bc678ffe-fba8-4311-9e0f-0ee0c7c37ddf",
+                            Email = "william.wilson@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "WILLIAM.WILSON@EPHEC.BE",
+                            NormalizedUserName = "WILLIAMWILSON",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFJzBzEpyzO6Y0pu4YT03mntPkRrZobIDCVmlKvea6Q3SFsbxrvg9RRP0GuI135sPQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5351cc0e-c9d2-472f-bf50-a99a5fbdc417",
+                            TwoFactorEnabled = false,
+                            UserName = "williamwilson"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3b993814-1e82-4bab-9ae3-545db37fcb28",
+                            Email = "sophia.miller@ephec.be",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SOPHIA.MILLER@EPHEC.BE",
+                            NormalizedUserName = "SOPHIAMILLER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHI0iCPf6JaLZEDk52zmNc42NGW5n/q4si4PsNn6aSetHlyPKSh2pqVQAInKmPxrlA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b1842ff0-8083-4523-a9f2-3064a3925de1",
+                            TwoFactorEnabled = false,
+                            UserName = "sophiamiller"
                         });
                 });
 
@@ -193,7 +351,7 @@ namespace Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Assignment", (string)null);
+                    b.ToTable("Assignment");
                 });
 
             modelBuilder.Entity("Domain.Models.Course", b =>
@@ -216,57 +374,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Web Development is fun!",
-                            Name = "Web Development"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Java Programming is fun! Fun! Fun! ",
-                            Name = "Java Programming"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "C# Programming is fun too!",
-                            Name = "C# Programming"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Learn about data structures.",
-                            Name = "Data Structures"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Study the fundamentals of algorithms.",
-                            Name = "Algorithms"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Dive into computer networking principles.",
-                            Name = "Computer Networks"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Explore how operating systems work.",
-                            Name = "Operating Systems"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Understand database management systems.",
-                            Name = "Database Systems"
-                        });
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("Domain.Models.CourseInstructor", b =>
@@ -297,7 +405,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CourseInstructor", (string)null);
+                    b.ToTable("CourseInstructor");
                 });
 
             modelBuilder.Entity("Domain.Models.CourseStudent", b =>
@@ -328,7 +436,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CourseStudent", (string)null);
+                    b.ToTable("CourseStudent");
                 });
 
             modelBuilder.Entity("Domain.Models.StudentAssignment", b =>
@@ -361,7 +469,7 @@ namespace Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentAssignment", (string)null);
+                    b.ToTable("StudentAssignment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -452,6 +560,56 @@ namespace Data.Migrations
                         {
                             UserId = 1,
                             RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 6,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 7,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 8,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 9,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 10,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 11,
+                            RoleId = 1
                         });
                 });
 
