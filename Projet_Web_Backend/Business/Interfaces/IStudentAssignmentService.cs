@@ -24,5 +24,8 @@ namespace Business.Interfaces
         Task<bool> LateAssignment(int studentAssignmentId);
         Task<decimal> GetAverageGradeByStudentId(int studentId);
         Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId);
+        Task<IEnumerable<StudentAssignmentDetailedDTO>> GetSubmittedAssignments(int courseId);
+        Task<IEnumerable<StudentAssignmentDetailedDTO>> GetGradedAssignments(int courseId);
+        Task<IEnumerable<StudentAssignmentDetailedDTO>> GetLateAssignments(int courseId);
     }
 }

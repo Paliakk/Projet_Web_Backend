@@ -110,5 +110,24 @@ namespace API.Controllers
             var result = await _studentAssignmentService.GetAverageGradeByStudentByCourseId(studentId,courseId);
             return Ok(result);
         }
+        [HttpGet("GetSubmittedAssignments/{courseId}")]
+        public async Task<IActionResult> GetSubmittedAssignments(int courseId)
+        {
+            var result = await _studentAssignmentService.GetSubmittedAssignments(courseId);
+            return Ok(result);
+        }
+        [HttpGet("GetGradedAssignments/{courseId}")]
+        public async Task<IActionResult> GetGradedAssignments(int courseId)
+        {
+            var result = await _studentAssignmentService.GetGradedAssignments(courseId);
+            return Ok(result);
+        }
+        [HttpGet("GetLateAssignments/{courseId}")]
+        public async Task<IActionResult> GetLateAssignments(int courseId)
+        {
+            var result = await _studentAssignmentService.GetLateAssignments(courseId);
+            return Ok(result);
+        }
+
     }
 }

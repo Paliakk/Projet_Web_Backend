@@ -230,5 +230,98 @@ namespace Business.Repositories
         {
             return await _studentAssignmentRrepository.GetAverageGradeByStudentByCourseId(studentId, courseId);
         }
+        public async Task<IEnumerable<StudentAssignmentDetailedDTO>> GetSubmittedAssignments(int courseId)
+        {
+            var studentAssignments = await _studentAssignmentRrepository.GetSubmittedAssignments(courseId);
+            var detailedAssignments = new List<StudentAssignmentDetailedDTO>();
+            foreach (var sa in studentAssignments)
+            {
+                var detailedDto = _mapper.Map<StudentAssignmentDetailedDTO>(sa);
+
+                var userDTO = await _userService.GetUserById(sa.StudentId);
+                if (userDTO != null)
+                {
+                    detailedDto.studentName = userDTO.username;
+                }
+                var assignment = await _assignmentService.GetByIdAsync(sa.AssignmentId);
+                if(assignment != null)
+                {
+                    detailedDto.AssignmentTitle = assignment.Title;
+                    detailedDto.AssignmentDescription = assignment.Description;
+                    detailedDto.AssignmentDeadline = assignment.Deadline;
+                    detailedDto.courseId = assignment.CourseId;
+
+                    var course = await _courseRepository.GetCourseById(assignment.CourseId);
+                    if (course != null)
+                    {
+                        detailedDto.CourseName = course.Name;
+                    }
+                }
+                detailedAssignments.Add(detailedDto);
+            }
+            return detailedAssignments;
+        }
+        public async Task<IEnumerable<StudentAssignmentDetailedDTO>> GetGradedAssignments(int courseId)
+        {
+            var studentAssignments = await _studentAssignmentRrepository.GetGradedAssignments(courseId);
+            var detailedAssignments = new List<StudentAssignmentDetailedDTO>();
+            foreach (var sa in studentAssignments)
+            {
+                var detailedDto = _mapper.Map<StudentAssignmentDetailedDTO>(sa);
+
+                var userDTO = await _userService.GetUserById(sa.StudentId);
+                if (userDTO != null)
+                {
+                    detailedDto.studentName = userDTO.username;
+                }
+                var assignment = await _assignmentService.GetByIdAsync(sa.AssignmentId);
+                if (assignment != null)
+                {
+                    detailedDto.AssignmentTitle = assignment.Title;
+                    detailedDto.AssignmentDescription = assignment.Description;
+                    detailedDto.AssignmentDeadline = assignment.Deadline;
+                    detailedDto.courseId = assignment.CourseId;
+
+                    var course = await _courseRepository.GetCourseById(assignment.CourseId);
+                    if (course != null)
+                    {
+                        detailedDto.CourseName = course.Name;
+                    }
+                }
+                detailedAssignments.Add(detailedDto);
+            }
+            return detailedAssignments;
+        }
+        public async Task<IEnumerable<StudentAssignmentDetailedDTO>> GetLateAssignments(int courseId)
+        {
+            var studentAssignments = await _studentAssignmentRrepository.GetLateAssignments(courseId);
+            var detailedAssignments = new List<StudentAssignmentDetailedDTO>();
+            foreach (var sa in studentAssignments)
+            {
+                var detailedDto = _mapper.Map<StudentAssignmentDetailedDTO>(sa);
+
+                var userDTO = await _userService.GetUserById(sa.StudentId);
+                if (userDTO != null)
+                {
+                    detailedDto.studentName = userDTO.username;
+                }
+                var assignment = await _assignmentService.GetByIdAsync(sa.AssignmentId);
+                if (assignment != null)
+                {
+                    detailedDto.AssignmentTitle = assignment.Title;
+                    detailedDto.AssignmentDescription = assignment.Description;
+                    detailedDto.AssignmentDeadline = assignment.Deadline;
+                    detailedDto.courseId = assignment.CourseId;
+
+                    var course = await _courseRepository.GetCourseById(assignment.CourseId);
+                    if (course != null)
+                    {
+                        detailedDto.CourseName = course.Name;
+                    }
+                }
+                detailedAssignments.Add(detailedDto);
+            }
+            return detailedAssignments;
+        }
     }
 }

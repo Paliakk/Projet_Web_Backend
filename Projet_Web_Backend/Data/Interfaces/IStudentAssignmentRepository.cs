@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Dtos;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,8 @@ namespace Data.Interfaces
         Task<bool> LateAssignment(int studentAssignmentId);
         Task<decimal> GetAverageGradeByStudentId(int studentId);
         Task<decimal> GetAverageGradeByStudentByCourseId(int studentId, int courseId);
+        Task<IEnumerable<StudentAssignment>> GetSubmittedAssignments(int courseId);
+        Task<IEnumerable<StudentAssignment>> GetGradedAssignments(int courseId);
+        Task<IEnumerable<StudentAssignment>> GetLateAssignments(int courseId);
     }
 }

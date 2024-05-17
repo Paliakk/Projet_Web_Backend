@@ -1,4 +1,5 @@
 ﻿using Data.Interfaces;
+using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -181,6 +182,36 @@ namespace Data.Repositories
                 return 0;
             }
             return avg;
+        }
+        public async Task<IEnumerable<StudentAssignment>> GetSubmittedAssignments(int courseId)
+        {
+            var studentAssignments = await _context.StudentAssignment
+                .Include(sa => sa.Assignment)
+                .ThenInclude(a => a.Course)
+                .Where(sa => sa.Assignment.CourseId == courseId && sa.Status == "Submitted")
+                .ToListAsync();
+
+            return studentAssignments;
+        }
+        public async Task<IEnumerable<StudentAssignment>> GetGradedAssignments(int courseId)
+        {
+            var studentAssignments = await _context.StudentAssignment
+                .Include(sa => sa.Assignment)
+                .ThenInclude(a => a.Course)
+                .Where(sa => sa.Assignment.CourseId == courseId && sa.Status == "Completed")
+                .ToListAsync();
+
+            return studentAssignments;
+        }
+        public async Task<IEnumerable<StudentAssignment>> GetLateAssignments(int courseId)
+        {
+            var studentAssignments = await _context.StudentAssignment
+                .Include(sa => sa.Assignment)
+                .ThenInclude(a => a.Course)
+                .Where(sa => sa.Assignment.CourseId == courseId && sa.Status == "Late")
+                .ToListAsync();
+
+            return studentAssignments;
         }
     }
 }
