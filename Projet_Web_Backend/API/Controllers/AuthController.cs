@@ -102,5 +102,41 @@ namespace API.Controllers
             }
             return ValidationProblem(ModelState);
         }
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDTO request)
+        {
+            var user = await _authService.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var token = await _authService.GeneratePasswordResetTokenAsync(user);
+            // Enregistrez le token dans une table temporaire ou en mémoire avec une expiration
+
+            return Ok(new { token });
+        }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _authService.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Invalid request" });
+            }
+
+            var result = await _authService.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { message = "Password has been reset successfully" });
+        }
     }
 }

@@ -65,6 +65,10 @@ namespace Business.Repositories
         {
             return await _authRepository.FindByNameAsync(username);
         }
+        public async Task<ApplicationUser> FindByEmailAsync(string email)
+        {
+            return await _authRepository.FindByEmailAsync(email);
+        }
 
         public async Task<IList<string>> GetRolesAsync(ApplicationUser user)
         {
@@ -79,6 +83,16 @@ namespace Business.Repositories
         {
             return await _authRepository.ChangePasswordAsync(user, currentPassword, newPassword);
         }
+        public async Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user)
+        {
+            return await _authRepository.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
+        {
+            return await _authRepository.ResetPasswordAsync(user, token, newPassword);
+        }
+
 
     }
 }

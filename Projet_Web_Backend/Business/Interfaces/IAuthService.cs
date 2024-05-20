@@ -14,8 +14,11 @@ namespace Business.Interfaces
         Task<LoginResponsetDTO> LoginAsync(LoginRequestDTO request);
         Task<IdentityResult> RegisterAsync(RegistrationRequestDTO request);
         Task<ApplicationUser> FindByNameAsync(string username);
+        Task<ApplicationUser> FindByEmailAsync(string email);
         Task<IList<string>> GetRolesAsync(ApplicationUser user);
         Task UpdateUserAsync(ApplicationUser user);
         Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
+        Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
+        Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
     }
 }
