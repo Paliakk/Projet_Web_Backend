@@ -115,6 +115,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAssignementsByCourseByInstructorId/{instructorId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
 
         public async Task<ActionResult<AssignementReadDTO>> GetAssignementsByCourseByInstructorId(int instructorId)
         {
@@ -129,6 +130,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAllWithCourses")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<IEnumerable<AssignementReadWithCourseDTO>>> GetAllWithCourse()
         {
             try

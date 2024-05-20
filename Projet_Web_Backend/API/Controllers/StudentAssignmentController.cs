@@ -99,30 +99,35 @@ namespace API.Controllers
             return Ok(result);
         }
         [HttpGet("GetAverageGradeByStudentId/{studentId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor,Student")]
         public async Task<IActionResult> GetAverageGradeByStudentId(int studentId)
         {
             var result = await _studentAssignmentService.GetAverageGradeByStudentId(studentId);
             return Ok(result);
         }
         [HttpGet("GetAverageGradeByStudentByCourseId/{studentId}/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor,Student")]
         public async Task<IActionResult> GetAverageGradeByStudentByCourseId(int studentId,int courseId)
         {
             var result = await _studentAssignmentService.GetAverageGradeByStudentByCourseId(studentId,courseId);
             return Ok(result);
         }
         [HttpGet("GetSubmittedAssignments/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> GetSubmittedAssignments(int courseId)
         {
             var result = await _studentAssignmentService.GetSubmittedAssignments(courseId);
             return Ok(result);
         }
         [HttpGet("GetGradedAssignments/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> GetGradedAssignments(int courseId)
         {
             var result = await _studentAssignmentService.GetGradedAssignments(courseId);
             return Ok(result);
         }
         [HttpGet("GetLateAssignments/{courseId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<IActionResult> GetLateAssignments(int courseId)
         {
             var result = await _studentAssignmentService.GetLateAssignments(courseId);

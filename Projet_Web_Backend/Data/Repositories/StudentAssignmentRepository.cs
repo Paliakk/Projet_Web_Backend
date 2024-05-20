@@ -72,19 +72,34 @@ namespace Data.Repositories
 
         public async Task<bool> SubmitAssignment(int studentAssignmentId, string filePath)
         {
-            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.AssignmentId == studentAssignmentId);
+            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.Id == studentAssignmentId);
             if (existingStudentAssignment == null)
             {
                 throw new KeyNotFoundException("Devoir de l'étudiant non trouvé avec l'ID spécifié.");
             }
-            existingStudentAssignment.FilePath = filePath;
-            existingStudentAssignment.Status = "Submitted";
-            await _context.SaveChangesAsync();
-            return true;
+            if(existingStudentAssignment.Status == "Completed" || existingStudentAssignment.Status == "Submitted")
+            {
+                return false;
+            }
+            if(existingStudentAssignment.Status == "Late")
+            {
+                existingStudentAssignment.FilePath = filePath;
+                existingStudentAssignment.Status = "Late";
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                existingStudentAssignment.FilePath = filePath;
+                existingStudentAssignment.Status = "Submitted";
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
         public async Task<bool> LateAssignment(int studentAssignmentId)
         {
-            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.AssignmentId == studentAssignmentId);
+            var existingStudentAssignment = await _context.StudentAssignment.FirstOrDefaultAsync(sa => sa.Id == studentAssignmentId);
             if(existingStudentAssignment == null)
             {
                 throw new KeyNotFoundException("Devoir de l'étudiant non trouvé avec l'ID spécifié.");

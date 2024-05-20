@@ -8518,7 +8518,6 @@
       "AutoMapper >= 12.0.1",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
       "Business >= 1.0.0",
-      "Data >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.2",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.2",
       "Microsoft.EntityFrameworkCore >= 8.0.2",
@@ -8566,9 +8565,6 @@
           "projectReferences": {
             "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Business\\Business.csproj": {
               "projectPath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Business\\Business.csproj"
-            },
-            "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Data\\Data.csproj": {
-              "projectPath": "C:\\Users\\igorm\\Documents\\GitHub\\Projet_Web_Backend\\Projet_Web_Backend\\Data\\Data.csproj"
             }
           }
         }
