@@ -16,5 +16,6 @@ namespace Business.Interfaces
         Task<ApplicationUser> FindByNameAsync(string username);
         Task<IList<string>> GetRolesAsync(ApplicationUser user);
         Task UpdateUserAsync(ApplicationUser user);
+        Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
     }
 }

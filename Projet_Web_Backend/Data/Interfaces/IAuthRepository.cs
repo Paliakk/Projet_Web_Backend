@@ -18,5 +18,6 @@ namespace Data.Interfaces
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         Task<IList<string>> GetRolesAsync(ApplicationUser user);
         Task UpdateAsync(ApplicationUser user);
+        Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
     }
 }

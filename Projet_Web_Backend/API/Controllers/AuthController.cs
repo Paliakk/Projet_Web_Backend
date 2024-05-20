@@ -83,5 +83,24 @@ namespace API.Controllers
 
             return Ok(response);
         }
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO request)
+        {
+            var user = await _authService.FindByNameAsync(request.UserName);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            var result = await _authService.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return ValidationProblem(ModelState);
+        }
     }
 }

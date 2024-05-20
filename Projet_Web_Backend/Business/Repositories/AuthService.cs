@@ -75,5 +75,10 @@ namespace Business.Repositories
         {
             await _authRepository.UpdateAsync(user);
         }
+        public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+        {
+            return await _authRepository.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
     }
 }
