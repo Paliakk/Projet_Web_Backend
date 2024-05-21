@@ -3,14 +3,10 @@
 ## Description
 Cette API backend est construite avec ASP.NET Core et fournit des services pour gérer les utilisateurs, les cours et les devoirs. Elle utilise Entity Framework Core pour l'accès aux données et Identity pour la gestion des utilisateurs.
 
-## Prérequis
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-
 ## Installation
 
 1. Clonez le dépôt :
-    ```bash
+    Avec visual studio
     git clone https://github.com/Paliakk/Projet_Web_Backend.git
     ```
 
@@ -43,3 +39,31 @@ Serivces pour :
 - Affichage des devoirs
 - Gestion des devoirs
 - Tableau de bord utilisateur
+
+Structure de la db:
+	ApplicatioRole : Role personnalisé de Identity
+	ApplicationUser : User personnalisé de Identity, englobe les étudiant,admins et instructeurs
+	Assignment: Enregistre les devoirs
+	Course: Enregistre les cours
+	CourseInstructor: Enregistre les cours donnés par instructeur
+	CourseStudent: Enregistre les cours suivis par étudiant
+	StudentAssignment: Enregistre les devoirs de chaque étudiant
+Structure du Backend:
+	Domain :
+		 -DTO
+		 -Modeles
+	Data : 	
+		-Interfaces
+		-Repositories
+		-DbContext
+		-Migrations
+	Business:
+		-Service et logique business
+		-interfaces
+	API: 
+		-Controllers
+
+Apres réalisation:
+	La structure de la bd aurait pu être plus claire.	
+
+
