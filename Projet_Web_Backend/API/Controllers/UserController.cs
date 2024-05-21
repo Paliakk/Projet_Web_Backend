@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
-using Data.Interfaces;
-using Data.Repositories;
 using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +22,7 @@ namespace API.Controllers
         [HttpGet("GetAllUsers")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
 
-        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAllUsersAsync()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersAsync()
         {
             try
             {
@@ -39,7 +37,7 @@ namespace API.Controllers
         [HttpGet]
         [Route("GetUserById{userID:int}")]
         [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin,Student,Instructor")]
-        public async Task<ActionResult<ApplicationUser>> GetUserById([FromRoute] int userID)
+        public async Task<ActionResult<UserDTO>> GetUserById([FromRoute] int userID)
         {
             try
             {

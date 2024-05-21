@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Domain.Dtos;
-using Data.Interfaces;
-using Domain.Models;
 using Business.Interfaces;
 
 namespace API.Controllers

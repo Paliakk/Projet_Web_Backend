@@ -1,11 +1,5 @@
 ﻿using Business.Interfaces;
-using Business.Repositories;
-using Data.Interfaces;
-using Data.Repositories;
 using Domain.Dtos;
-using Domain.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
