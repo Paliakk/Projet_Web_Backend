@@ -87,4 +87,4 @@ C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\o
 C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.genruntimeconfig.cache
 C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\obj\Debug\net8.0\ref\Business.dll
-C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.csproj.Up2Date
+C:\Users\igorm\Documents\GitHub\Projet_Web_Backend\Projet_Web_Backend\Business\obj\Debug\net8.0\Business.csproj.CopyComplete
