@@ -1,4 +1,7 @@
-﻿using Data.Interfaces;
+﻿using Business.Interfaces;
+using Business.Repositories;
+using Data.Interfaces;
+using Data.Repositories;
 using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,132 +14,129 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ITokenRepository tokenRepository;
-        public AuthController(UserManager<ApplicationUser> userManager, ITokenRepository tokenRepository)
-        {
-            this.userManager = userManager;
-            this.tokenRepository = tokenRepository;
-        }
+        private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
 
-        public ITokenRepository TokenRepository { get; }
+        public AuthController(IAuthService authService, ITokenService tokenService)
+        {
+            _authService = authService;
+            _tokenService = tokenService;
+        }
 
         // POST : {apibaseurl}/api/auth/login
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
         {
-            //verif email
-            ApplicationUser identityUser = null;
-            // Vérifie si le Login est un email
-            if (request.Login.Contains("@"))
+            var response = await _authService.LoginAsync(request);
+            if (response != null)
             {
-                identityUser = await userManager.FindByEmailAsync(request.Login);
-            }
-            else
-            {
-                identityUser = await userManager.FindByNameAsync(request.Login);
-            }
-
-            if (identityUser is not null)
-            {
-                //Verif mdp
-                var checkPasswordResult = await userManager.CheckPasswordAsync(identityUser, request.Password);
-
-                if (checkPasswordResult)
-                {
-                    var roles = await userManager.GetRolesAsync(identityUser);
-                    //creation de token et reponse
-                    var (jwtToken, refreshToken) = tokenRepository.CreateJwtToken(identityUser, roles.ToList());
-                    var response = new LoginResponsetDTO()
-                    {
-                        Id = identityUser.Id,
-                        Email = identityUser.Email,
-                        Roles = roles.ToList(),
-                        Token = jwtToken,
-                        RefreshToken = refreshToken
-                    };
-                    return Ok(response);
-                }
+                return Ok(response);
             }
             ModelState.AddModelError("", "Email or Password incorrect");
-
             return ValidationProblem(ModelState);
         }
-
 
         // POST : {apibaseurl}/api/auth/register
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO request)
         {
-            //Create IdentityUser object 
-            var user = new ApplicationUser
-            {
-                UserName = request.UserName?.Trim(),
-                Email = request.Email?.Trim()
-            };
-            // Create User
-            var identityResult = await userManager.CreateAsync(user, request.Password);
-
+            var identityResult = await _authService.RegisterAsync(request);
             if (identityResult.Succeeded)
             {
-                // Add role to user (student)
-                identityResult = await userManager.AddToRoleAsync(user, "student");
-
-                if (identityResult.Succeeded)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    if (identityResult.Errors.Any())
-                    {
-                        foreach (var error in identityResult.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
-                    }
-                }
+                return Ok();
             }
-            else
+
+            foreach (var error in identityResult.Errors)
             {
-                if (identityResult.Errors.Any())
-                {
-                    foreach (var error in identityResult.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
+                ModelState.AddModelError("", error.Description);
             }
 
             return ValidationProblem(ModelState);
         }
+
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDTO request)
         {
-            var principal = tokenRepository.GetPrincipalFromExpiredToken(request.Token);
-            var username = principal.Identity.Name; // Assurez-vous que votre token inclut le nom d'utilisateur correctement
+            var principal = _tokenService.GetPrincipalFromExpiredToken(request.Token);
+            var username = principal.Identity.Name;
 
-            var user = await userManager.FindByNameAsync(username);
+            var user = await _authService.FindByNameAsync(username);
             if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 return BadRequest("Invalid token information");
             }
 
-            var roles = await userManager.GetRolesAsync(user); // Attendez simplement la tâche et obtenez les rôles
+            var roles = await _authService.GetRolesAsync(user);
+            var (newJwtToken, newRefreshToken) = _tokenService.CreateJwtToken(user, roles.ToList());
 
-            var (newJwtToken, newRefreshToken) = tokenRepository.CreateJwtToken(user, roles.ToList());
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddHours(2);
+            await _authService.UpdateUserAsync(user);
+
             var response = new LoginResponsetDTO
             {
                 Email = user.Email,
                 Token = newJwtToken,
-                RefreshToken = newRefreshToken, // Utilisez le nouveau refresh token ici
-                Roles = roles.ToList() // Vous pouvez maintenant convertir les rôles en liste
+                RefreshToken = newRefreshToken,
+                Roles = roles.ToList()
             };
 
             return Ok(response);
         }
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDTO request)
+        {
+            var user = await _authService.FindByNameAsync(request.UserName);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            var result = await _authService.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return ValidationProblem(ModelState);
+        }
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDTO request)
+        {
+            var user = await _authService.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
 
+            var token = await _authService.GeneratePasswordResetTokenAsync(user);
+            // Enregistrez le token dans une table temporaire ou en mémoire avec une expiration
+
+            return Ok(new { token });
+        }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _authService.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Invalid request" });
+            }
+
+            var result = await _authService.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { message = "Password has been reset successfully" });
+        }
     }
 }
