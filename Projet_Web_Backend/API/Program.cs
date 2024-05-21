@@ -1,17 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Humanizer;
-using Microsoft.OpenApi.Models;
 using API;
 using Data;
 using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Principal;
 using Domain.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Business.Interfaces;
 using Business.Repositories;
 
@@ -35,15 +30,19 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 // Add repositories and services
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
-builder.Services.AddScoped<IAssignementRepository, AssignementRepository>();
-builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IAssignementRepository, AssignementRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
 builder.Services.AddScoped<IAssignementService, AssignementService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IStudentAssignmentService, StudentAssignmentService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Include other dependencies...
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()

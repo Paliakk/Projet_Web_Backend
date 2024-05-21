@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
+using Business.Repositories;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -115,6 +116,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAssignementsByCourseByInstructorId/{instructorId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
 
         public async Task<ActionResult<AssignementReadDTO>> GetAssignementsByCourseByInstructorId(int instructorId)
         {
@@ -129,6 +131,7 @@ namespace API.Controllers
             }
         }
         [HttpGet("GetAllWithCourses")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Instructor")]
         public async Task<ActionResult<IEnumerable<AssignementReadWithCourseDTO>>> GetAllWithCourse()
         {
             try
@@ -140,6 +143,5 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
-
     }
 }
