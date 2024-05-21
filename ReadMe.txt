@@ -6,30 +6,25 @@ Cette API backend est construite avec ASP.NET Core et fournit des services pour 
 ## Installation
 
 1. Clonez le dépôt :
+
     Avec visual studio
     git clone https://github.com/Paliakk/Projet_Web_Backend.git
-    ```
+
 
 2. Accédez au répertoire du projet :
-    ```bash
-    cd Projet_Web_Backend
-    ```
+    lancez le projet
 
 3. Configurez la base de données dans `appsettings.json`.
 
 4. Appliquez les migrations de la base de données :
-    ```bash
-    dotnet ef database update
-    ou
+    Bien sélectionner Data comme projet par défaut
     update-database		
-    ```
+
 
 5. Lancez l'application :
-    ```bash
-    dotnet run
-    ou
+
     lancement IDE
-    ```
+
 ## Fonctionnalités principales
 Serivces pour :
 - Authentification
